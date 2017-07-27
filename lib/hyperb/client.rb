@@ -9,7 +9,6 @@ module Hyperb
       end
     end
 
-
     def credentials
       {
         secret_key: secret_key,
@@ -18,7 +17,7 @@ module Hyperb
     end
 
     def credentials?
-      !credentials.values.none?
+      credentials.values.none? { |cred| blank?(cred) }
     end
 
     def blank?(val)
