@@ -17,9 +17,9 @@ module Hyperb
     KEYPARTS_REQUEST = 'hyper_request'.freeze
     BASE_URL = 'https://' + HOST + '/'
 
-    attr_accessor :verb, :uri, :client, :date, :headers, :conn
+    attr_accessor :verb, :uri, :client, :date, :headers
 
-    def initialize(client, uri, verb = 'GET', body = '')
+    def initialize(client, uri, verb = 'GET', body = '', date)
       @client = client
       @uri = URI(VERSION + uri)
       @path = @uri.path
@@ -27,7 +27,7 @@ module Hyperb
       @body = body
       @hashed_body = hexdigest(body)
       @verb = verb.upcase
-      @date = Time.now.utc.strftime(FMT)
+      @date = date || Time.now.utc.strftime(FMT)
       @headers = {
         :content_type => 'application/json',
         :x_hyper_date => @date,
@@ -70,7 +70,7 @@ module Hyperb
       k_date = hmac('HYPER' + @client.secret_key, @date[0,8])
       k_region = hmac(k_date, REGION)
       k_service = hmac(k_region, SERVICE)
-      k_credentials = hmac(k_service, 'hyper_request')
+      k_credentials = hmac(k_service, KEYPARTS_REQUEST)
       hexhmac(k_credentials, string_to_sign)
     end
 
