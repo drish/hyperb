@@ -1,5 +1,9 @@
+require 'hyperb/api'
+
 module Hyperb
+
   class Client
+    include Hyperb::API
 
     attr_accessor :secret_key, :access_key
 
@@ -7,6 +11,7 @@ module Hyperb
       options.each do |key, value|
         instance_variable_set("@#{key}", value)
       end
+      yield(self) if block_given?
     end
 
     def credentials
