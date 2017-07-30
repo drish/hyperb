@@ -13,6 +13,7 @@ RSpec.describe Hyperb::Request do
     req.sign
     header = 'HYPER-HMAC-SHA256 Credential=ak/20170729/us-west-1/hyper/hyper_request, SignedHeaders=content-type;host;x-hyper-content-sha256;x-hyper-date, Signature=3a923718db713abc7b851712a434343eb7887298ab5f48113a7b291f261c037a'
     expect(req.headers[:authorization]).to eql(header)
+    expect(req.signed).to be true
   end
 
 end
