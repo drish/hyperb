@@ -7,7 +7,7 @@ module Hyperb
 
     def initialize(attrs = {})
       attrs.each do |k, v|
-        instance_variable_set("@#{k}", v)
+        instance_variable_set("@#{k.downcase.to_sym}", v)
       end
     end
   end
