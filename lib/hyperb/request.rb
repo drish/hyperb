@@ -18,7 +18,7 @@ module Hyperb
     KEYPARTS_REQUEST = 'hyper_request'.freeze
     BASE_URL = 'https://' + HOST + '/'
 
-    attr_accessor :verb, :uri, :client, :date, :headers
+    attr_accessor :verb, :uri, :client, :date, :headers, :signed
 
     def initialize(client, uri, verb = 'GET', body = '', date)
       @client = client
@@ -35,10 +35,11 @@ module Hyperb
         :host => HOST,
         :x_hyper_content_sha256 => @hashed_body
       }
+      @signed = false
     end
 
     def perform
-      sign
+      sign if !signed
       response = HTTP.headers(@headers).public_send(:get, BASE_URL + @uri.to_s)
       fail_or_return(response.code, response.body, response.headers)
     end
@@ -68,6 +69,7 @@ module Hyperb
       credential = "#{@client.access_key}/#{credential_scope}"
       auth = "#{ALGORITHM} Credential=#{credential}, SignedHeaders=#{signed_headers}, Signature=#{signature}"
       @headers[:authorization] = auth
+      @signed = true
     end
 
     # setups signature key
