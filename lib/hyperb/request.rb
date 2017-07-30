@@ -3,6 +3,7 @@ require 'time'
 require 'uri'
 require 'http'
 require 'digest'
+require 'hyperb/error'
 
 module Hyperb
 
@@ -39,11 +40,16 @@ module Hyperb
     def perform
       sign
       response = HTTP.headers(@headers).public_send(:get, BASE_URL + @uri.to_s)
-      puts response
-      response.body
+      fail_or_return(response.code, response.body, response.headers)
     end
 
-    # join all headers sent by `;`
+    def fail_or_return(code, body, headers)
+      error = Hyperb::Error::ERRORS[code]
+      raise(error.new(body, code)) if error
+      body
+    end
+
+    # join all headers by `;`
     # ie:
     # content-type;x-hyper-hmac-sha256
     def signed_headers
