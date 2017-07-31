@@ -3,6 +3,7 @@ require 'time'
 require 'uri'
 require 'http'
 require 'digest'
+require 'json'
 require 'hyperb/error'
 
 module Hyperb
@@ -38,13 +39,13 @@ module Hyperb
       @signed = false
     end
 
-    def perform
+    def perform(stream = false)
       sign if !signed
-      response = HTTP.headers(@headers).public_send(:get, BASE_URL + @uri.to_s)
-      fail_or_return(response.code, response.body, response.headers)
+      response = HTTP.headers(@headers).public_send(@verb.downcase.to_sym, BASE_URL + @uri.to_s)
+      fail_or_return(response.code, response.body, response.headers, stream)
     end
 
-    def fail_or_return(code, body, headers)
+    def fail_or_return(code, body, headers, stream)
       error = Hyperb::Error::ERRORS[code]
       raise(error.new(body, code)) if error
       body
@@ -72,7 +73,7 @@ module Hyperb
       @signed = true
     end
 
-    # setups signature key
+    # setup signature key
     # https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/index.html
     def signature
       k_date = hmac('HYPER' + @client.secret_key, @date[0,8])
