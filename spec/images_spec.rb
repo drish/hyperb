@@ -45,12 +45,16 @@ RSpec.describe Hyperb::Images do
     end
 
     it 'request to the correct path should be made' do
-      @client.create_image fromImage: 'busybox'
+      @client.create_image from_image: 'busybox'
       expect(a_request(:post, @create_image_path)).to have_been_made
     end
 
+    it 'should raise ArgumentError if argument missing' do
+      expect { @client.create_image wrong_arg: 'busybox' }.to raise_error(ArgumentError)
+    end
+
      it 'return http:response' do
-       res = @client.create_image fromImage: 'busybox'
+       res = @client.create_image from_image: 'busybox'
        expect(res).to be_a HTTP::Response::Body
      end
   end

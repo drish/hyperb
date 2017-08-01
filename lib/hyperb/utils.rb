@@ -2,6 +2,23 @@ module Hyperb
 
   module Utils
 
+    # checks if all args are keys into the hash
+    #
+    # @return [Boolean]
+    #
+    # @param params [Hash] hash to check.
+    # @option *args [String] array of strings to check against the hash
+    def check_arguments(params, *args)
+      contains = true
+      args.each do |arg|
+        if !params.has_key? arg.to_sym
+          contains = false
+          break
+        end
+      end
+      contains
+    end
+
     # hyper.sh responses are capital cased json
     #
     # {"Field": "value"}
