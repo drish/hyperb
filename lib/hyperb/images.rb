@@ -41,8 +41,9 @@ module Hyperb
 
     # TODO: @option params [Boolean] :stdout print stream to stdout
     def create_image(params = {})
+      raise ArgumentError.new('Invalid arguments.') if !check_arguments(params, 'from_image')
       path = '/images/create'
-      path.concat("?fromImage=#{params[:fromImage]}") if params[:fromImage]
+      path.concat("?fromImage=#{params[:from_image]}") if params[:from_image]
       path.concat("&tag=#{params[:tag]}") if params[:tag]
       res = Hyperb::Request.new(self, path, 'post', nil).perform
       res
