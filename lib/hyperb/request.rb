@@ -21,7 +21,7 @@ module Hyperb
 
     attr_accessor :verb, :uri, :client, :date, :headers, :signed
 
-    def initialize(client, uri, verb = 'GET', body = '')
+    def initialize(client, uri, verb = 'GET', body = '', optional_headers = {})
       @client = client
       @uri = URI(VERSION + uri)
       @path = @uri.path
@@ -36,6 +36,7 @@ module Hyperb
         :host => HOST,
         :x_hyper_content_sha256 => @hashed_body
       }
+      @headers.merge!(optional_headers) if !optional_headers.empty?
       @signed = false
     end
 
