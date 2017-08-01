@@ -22,7 +22,7 @@ module Hyperb
     def images(params = {})
       path = '/images/json'
       path.concat('?all=true') if params[:all]
-      response = JSON.parse(Hyperb::Request.new(self, path, 'get', nil).perform)
+      response = JSON.parse(Hyperb::Request.new(self, path, 'get').perform)
       response.map { |image| Hyperb::Image.new(image) }
     end
 
@@ -32,20 +32,20 @@ module Hyperb
     #
     # @raise [Hyperb::Error::Unauthorized] raised when credentials are not valid.
     # @raise [Hyperb::Error::InternalServerError] server error on hyper side.
+    # @raise [ArgumentError] when required arguments are not provided.
     #
     # @return [HTTP::Response::Body] a streamable response object.
     #
     # @param params [Hash] A customizable set of params.
-    # @option params [String] :fromImage image name to be pulled
+    # @required @option params [String] :from_image image name to be pulled
     # @option params [String] :tag image tag name
-
     # TODO: @option params [Boolean] :stdout print stream to stdout
     def create_image(params = {})
       raise ArgumentError.new('Invalid arguments.') if !check_arguments(params, 'from_image')
       path = '/images/create'
-      path.concat("?fromImage=#{params[:from_image]}") if params[:from_image]
+      path.concat("?fromImage=#{params[:from_image]}")
       path.concat("&tag=#{params[:tag]}") if params[:tag]
-      res = Hyperb::Request.new(self, path, 'post', nil).perform
+      res = Hyperb::Request.new(self, path, 'post').perform
       res
     end
 
@@ -65,7 +65,7 @@ module Hyperb
     def remove_image(params = {})
       path = '/images/' + params[:name]
       path.concat('?force=true') if params[:force]
-      res = JSON.parse(Hyperb::Request.new(self, path, 'delete', nil).perform)
+      res = JSON.parse(Hyperb::Request.new(self, path, 'delete').perform)
       downcase_symbolize(res)
     end
 

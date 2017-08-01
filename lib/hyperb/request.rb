@@ -17,11 +17,11 @@ module Hyperb
     SERVICE = 'hyper'.freeze
     ALGORITHM = 'HYPER-HMAC-SHA256'.freeze
     KEYPARTS_REQUEST = 'hyper_request'.freeze
-    BASE_URL = 'https://' + HOST + '/'
+    BASE_URL = ('https://' + HOST + '/').freeze
 
     attr_accessor :verb, :uri, :client, :date, :headers, :signed
 
-    def initialize(client, uri, verb = 'GET', body = '', date)
+    def initialize(client, uri, verb = 'GET', body = '')
       @client = client
       @uri = URI(VERSION + uri)
       @path = @uri.path
@@ -29,7 +29,7 @@ module Hyperb
       @body = body
       @hashed_body = hexdigest(body)
       @verb = verb.upcase
-      @date = date || Time.now.utc.strftime(FMT)
+      @date = Time.now.utc.strftime(FMT)
       @headers = {
         :content_type => 'application/json',
         :x_hyper_date => @date,
