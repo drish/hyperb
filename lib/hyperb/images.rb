@@ -2,6 +2,7 @@ require 'hyperb/request'
 require 'hyperb/image'
 require 'hyperb/utils'
 require 'json'
+require 'base64'
 
 module Hyperb
 	module Images
@@ -37,15 +38,25 @@ module Hyperb
     # @return [HTTP::Response::Body] a streamable response object.
     #
     # @param params [Hash] A customizable set of params.
+    #
     # @required @option params [String] :from_image image name to be pulled
     # @option params [String] :tag image tag name
+    #
+    # @option params [Hash] :x-registry-auth object containing either login information, or a token
+    # @option params x-registry-auth [String] :username
+    # @option params x-registry-auth [String] :email
+    # @option params x-registry-auth [String] :password
+    #
+    #
     # TODO: @option params [Boolean] :stdout print stream to stdout
     def create_image(params = {})
       raise ArgumentError.new('Invalid arguments.') if !check_arguments(params, 'from_image')
       path = '/images/create'
       path.concat("?fromImage=#{params[:from_image]}")
       path.concat("&tag=#{params[:tag]}") if params[:tag]
-      res = Hyperb::Request.new(self, path, 'post').perform
+      additional_headers = {}
+      additional_headers[:x_registry_auth] = Base64.urlsafe_encode64(params[:x_registry_auth].to_json) if params.has_key?(:x_registry_auth)
+      res = Hyperb::Request.new(self, path, 'post', '', additional_headers).perform
       res
     end
 
