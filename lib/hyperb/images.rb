@@ -80,5 +80,23 @@ module Hyperb
       downcase_symbolize(res)
     end
 
+    # inspect an image
+    #
+    # @see https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Image/inspect.html
+    #
+    # @raise [Hyperb::Error::Unauthorized] raised when credentials are not valid.
+    # @raise [Hyperb::Error::NotFound] raised when tag is not found.
+    # @raise [Hyperb::Error::InternalServerError] server error on hyper side.
+    #
+    # @return [Array] array of downcase symbolized json response.
+    #
+    # @param params [Hash] A customizable set of params.
+    # @option params [String] :name image name to be removed
+    def inspect_image(params = {})
+      path = '/images/' + params[:name] + '/json'
+      res = JSON.parse(Hyperb::Request.new(self, path, 'get').perform)
+      downcase_symbolize(res)
+    end
+
   end
 end

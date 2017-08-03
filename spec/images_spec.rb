@@ -8,6 +8,7 @@ RSpec.describe Hyperb::Images do
     @images_path = Hyperb::Request::BASE_URL + Hyperb::Request::VERSION + '/images/json'
     @create_image_path = Hyperb::Request::BASE_URL + Hyperb::Request::VERSION + '/images/create?fromImage=busybox'
     @remove_image_path = Hyperb::Request::BASE_URL + Hyperb::Request::VERSION + '/images/busybox'
+    @inspect_image_path = Hyperb::Request::BASE_URL + Hyperb::Request::VERSION + '/images/busybox/json'
   end
 
   describe '#images' do
@@ -77,6 +78,27 @@ RSpec.describe Hyperb::Images do
       res.each do |r|
         r.keys.each { |k| expect(k).to be_a(Symbol) }
       end
+    end
+  end
+
+  describe '#inspect_image' do
+
+    before do
+      stub_request(:get, @inspect_image_path)
+      .to_return(body: fixture('inspect_image.json'))
+    end
+
+    it 'request to the correct path should be made' do
+      @client.inspect_image name: 'busybox'
+      expect(a_request(:get, @inspect_image_path)).to have_been_made
+    end
+
+    it 'return a hash with symbolized attrs' do
+      res = @client.inspect_image(name: 'busybox')
+      expect(res).to be_a Hash
+      expect(res.has_key?(:id)).to be true
+      expect(res.has_key?(:container)).to be true
+      expect(res.has_key?(:comment)).to be true
     end
   end
 
