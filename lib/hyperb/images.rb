@@ -2,6 +2,7 @@ require 'hyperb/request'
 require 'hyperb/image'
 require 'hyperb/utils'
 require 'json'
+require 'uri'
 require 'base64'
 
 module Hyperb
@@ -47,13 +48,13 @@ module Hyperb
     # @option params x-registry-auth [String] :email
     # @option params x-registry-auth [String] :password
     #
-    #
     # TODO: @option params [Boolean] :stdout print stream to stdout
     def create_image(params = {})
       raise ArgumentError.new('Invalid arguments.') if !check_arguments(params, 'from_image')
       path = '/images/create'
-      path.concat("?fromImage=#{params[:from_image]}")
-      path.concat("&tag=#{params[:tag]}") if params[:tag]
+      escaped_from_image = URI.encode_www_form_component(params[:from_image])
+      path.concat("?fromImage=#{escaped_from_image}")
+      path.concat("&tag=#{params[:tag]}") if params.has_key?(:tag)
       additional_headers = {}
       additional_headers[:x_registry_auth] = Base64.urlsafe_encode64(params[:x_registry_auth].to_json) if params.has_key?(:x_registry_auth)
       res = Hyperb::Request.new(self, path, 'post', '', additional_headers).perform
@@ -88,7 +89,7 @@ module Hyperb
     # @raise [Hyperb::Error::NotFound] raised when tag is not found.
     # @raise [Hyperb::Error::InternalServerError] server error on hyper side.
     #
-    # @return [Array] array of downcase symbolized json response.
+    # @return [Hash] downcased symbolized `inspect` json response.
     #
     # @param params [Hash] A customizable set of params.
     # @option params [String] :name image name to be removed

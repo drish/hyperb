@@ -1,10 +1,10 @@
+require 'hyperb/error'
 require 'openssl'
 require 'time'
 require 'uri'
 require 'http'
 require 'digest'
 require 'json'
-require 'hyperb/error'
 
 module Hyperb
 
