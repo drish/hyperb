@@ -5,7 +5,7 @@ require 'json'
 require 'base64'
 
 module Hyperb
-	module Images
+  module Images
 
     include Hyperb::Utils
     # list images
