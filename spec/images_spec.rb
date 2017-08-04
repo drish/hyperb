@@ -18,9 +18,17 @@ RSpec.describe Hyperb::Images do
       .to_return(body: fixture('images.json'))
     end
 
-    it 'request to the correct path should be made' do
+    it 'request to the correct path should be made, all=true by default' do
       @client.images
       expect(a_request(:get, @images_path)).to have_been_made
+    end
+
+    it 'request to the correct path should be made with filter=name' do
+      stub_request(:get, @images_path + '&filter=busybox')
+      .to_return(body: fixture('images.json'))
+
+      @client.images(filter: 'busybox')
+      expect(a_request(:get, @images_path + '&filter=busybox')).to have_been_made
     end
 
     it 'return array of images' do
@@ -36,7 +44,7 @@ RSpec.describe Hyperb::Images do
       end
     end
 
-   end
+  end
 
   describe '#create_image' do
 
@@ -70,6 +78,14 @@ RSpec.describe Hyperb::Images do
     it 'request to the correct path should be made' do
       @client.remove_image name: 'busybox'
       expect(a_request(:delete, @remove_image_path)).to have_been_made
+    end
+
+    it 'request to the correct path should be made with force=true' do
+      stub_request(:delete, @remove_image_path + '?force=true')
+      .to_return(body: fixture('remove_image.json'))
+
+      @client.remove_image(name: 'busybox', force: true)
+      expect(a_request(:delete, @remove_image_path + '?force=true')).to have_been_made
     end
 
     it 'return an array of symbolized hashes' do
