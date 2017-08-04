@@ -5,7 +5,7 @@ RSpec.describe Hyperb::Images do
 
   before do
     @client = Hyperb::Client.new(access_key: 'key', secret_key: '123')
-    @images_path = Hyperb::Request::BASE_URL + Hyperb::Request::VERSION + '/images/json'
+    @images_path = Hyperb::Request::BASE_URL + Hyperb::Request::VERSION + '/images/json?all=true'
     @create_image_path = Hyperb::Request::BASE_URL + Hyperb::Request::VERSION + '/images/create?fromImage=busybox'
     @remove_image_path = Hyperb::Request::BASE_URL + Hyperb::Request::VERSION + '/images/busybox'
     @inspect_image_path = Hyperb::Request::BASE_URL + Hyperb::Request::VERSION + '/images/busybox/json'

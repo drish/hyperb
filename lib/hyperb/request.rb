@@ -19,13 +19,12 @@ module Hyperb
     KEYPARTS_REQUEST = 'hyper_request'.freeze
     BASE_URL = ('https://' + HOST + '/').freeze
 
-    attr_accessor :verb, :uri, :client, :date, :headers, :signed
+    attr_accessor :verb, :path, :client, :date, :headers, :signed
 
-    def initialize(client, uri, verb = 'GET', body = '', optional_headers = {})
+    def initialize(client, path, query = {}, verb = 'GET', body = '', optional_headers = {})
       @client = client
-      @uri = URI(VERSION + uri)
-      @path = @uri.path
-      @query = @uri.query
+      @path = VERSION + path
+      @query = URI.encode_www_form(query)
       @body = body
       @hashed_body = hexdigest(body)
       @verb = verb.upcase
@@ -42,7 +41,8 @@ module Hyperb
 
     def perform(stream = false)
       sign if !signed
-      response = HTTP.headers(@headers).public_send(@verb.downcase.to_sym, BASE_URL + @uri.to_s)
+      final = BASE_URL + @path + '?' + @query
+      response = HTTP.headers(@headers).public_send(@verb.downcase.to_sym, final)
       fail_or_return(response.code, response.body, response.headers, stream)
     end
 
