@@ -17,14 +17,13 @@ module Hyperb
     #
     # @return [Hyperb::Image] Array of Images.
     # @param params [Hash] A customizable set of params.
-    # @option params [String] :all
-    # TODO: @option params [String] :filter only return images with the specified name
-    # TODO: @option params [Hash] :filters a JSON encoded value of the filters to process on the images list.
-    # TODO: @option params filters [String] :dangling true/false
+    # @option params [String] :all default is true
+    # @option params [String] :filter only return image with the specified name
     def images(params = {})
       path = '/images/json'
       query = {}
       params.has_key?(:all) ? query[:all] = params[:all] : query[:all] = true
+      query[:filter] = params[:filter] if params.has_key?(:filter)
       response = JSON.parse(Hyperb::Request.new(self, path, query, 'get').perform)
       response.map { |image| Hyperb::Image.new(image) }
     end
@@ -67,6 +66,7 @@ module Hyperb
     #
     # @raise [Hyperb::Error::Unauthorized] raised when credentials are not valid.
     # @raise [Hyperb::Error::NotFound] raised when tag is not found.
+    # @raise [Hyperb::Error::Conflict] raised when the image will only be removed with force.
     # @raise [Hyperb::Error::InternalServerError] server error on hyper side.
     #
     # @return [Array] array of downcase symbolized json response.
