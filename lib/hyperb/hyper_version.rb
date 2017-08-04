@@ -2,8 +2,7 @@ require 'hyperb/request'
 require 'json'
 
 module Hyperb
-
-	module HyperVersion
+  module HyperVersion
 
     # returns current version of hyper.sh api
     def version
