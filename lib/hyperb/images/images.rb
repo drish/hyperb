@@ -1,5 +1,5 @@
-require 'hyperb/request'
 require 'hyperb/images/image'
+require 'hyperb/request'
 require 'hyperb/utils'
 require 'json'
 require 'uri'
@@ -23,9 +23,9 @@ module Hyperb
     # TODO: @option params filters [String] :dangling true/false
     def images(params = {})
       path = '/images/json'
-      query = { all: false }
-      query[:all] = params[:all] if params[:all]
-      response = JSON.parse(Hyperb::Request.new(self, path, query,'get').perform)
+      query = {}
+      params.has_key?(:all) ? query[:all] = params[:all] : query[:all] = true
+      response = JSON.parse(Hyperb::Request.new(self, path, query, 'get').perform)
       response.map { |image| Hyperb::Image.new(image) }
     end
 
@@ -53,13 +53,12 @@ module Hyperb
     def create_image(params = {})
       raise ArgumentError.new('Invalid arguments.') if !check_arguments(params, 'from_image')
       path = '/images/create'
-      escaped_from_image = URI.encode_www_form_component(params[:from_image])
-      path.concat("?fromImage=#{escaped_from_image}")
-      path.concat("&tag=#{params[:tag]}") if params.has_key?(:tag)
-
+      query = { fromImage: params[:from_image] }
+      query[:tag] = params[:tag] if params.has_key?(:tag)
       additional_headers = {}
       additional_headers[:x_registry_auth] = Base64.urlsafe_encode64(params[:x_registry_auth].to_json) if params.has_key?(:x_registry_auth)
-      Hyperb::Request.new(self, path, 'post', '', additional_headers).perform
+      res = Hyperb::Request.new(self, path, query, 'post', '', additional_headers).perform
+      res
     end
 
     # remove an image
@@ -77,8 +76,9 @@ module Hyperb
     # @option params [Boolean] :force force image to be removed
     def remove_image(params = {})
       path = '/images/' + params[:name]
-      path.concat('?force=true') if params[:force]
-      res = JSON.parse(Hyperb::Request.new(self, path, 'delete').perform)
+      query = {}
+      query[:force] = true if params[:force]
+      res = JSON.parse(Hyperb::Request.new(self, path, query, 'delete').perform)
       downcase_symbolize(res)
     end
 
@@ -96,7 +96,7 @@ module Hyperb
     # @option params [String] :name image name to be removed
     def inspect_image(params = {})
       path = '/images/' + params[:name] + '/json'
-      res = JSON.parse(Hyperb::Request.new(self, path, 'get').perform)
+      res = JSON.parse(Hyperb::Request.new(self, path, {}, 'get').perform)
       downcase_symbolize(res)
     end
 

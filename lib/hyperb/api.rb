@@ -1,4 +1,4 @@
-require 'hyperb/images'
+require 'hyperb/images/images'
 require 'hyperb/hyper_version'
 
 # wrapper for modules
