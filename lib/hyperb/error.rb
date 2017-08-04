@@ -19,6 +19,9 @@ module Hyperb
     # code 404
     NotFound = Class.new(ClientError)
 
+    # code 409
+    Conflict = Class.new(ClientError)
+
     # code 500
     InternalServerError = Class.new(ServerError)
 
@@ -26,6 +29,7 @@ module Hyperb
       400 => Hyperb::Error::BadRequest,
       401 => Hyperb::Error::Unauthorized,
       404 => Hyperb::Error::NotFound,
+      409 => Hyperb::Error::Conflict,
       500 => Hyperb::Error::InternalServerError
     }.freeze
 
