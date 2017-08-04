@@ -10,16 +10,22 @@ RSpec.describe Hyperb::Containers do
 
   describe '#containers' do
 
-    before do
+    it 'request to the correct path should be made' do
+
       stub_request(:get, @containers_path)
       .to_return(body: fixture('containers.json'))
-    end
 
-    it 'request to the correct path should be made' do
       @client.containers
       expect(a_request(:get, @containers_path)).to have_been_made
     end
 
+    it 'request to the correct path should be made with all=true' do
+      stub_request(:get, @containers_path + '?all=true')
+      .to_return(body: fixture('containers.json'))
+
+      @client.containers(all: true)
+      expect(a_request(:get, @containers_path + '?all=true')).to have_been_made
+    end
   end
 
 end
