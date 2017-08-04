@@ -1,7 +1,6 @@
 module Hyperb
-
   # representation of Hyper errors
-	class Error < StandardError
+  class Error < StandardError
 
     attr_reader :code, :msg
 
