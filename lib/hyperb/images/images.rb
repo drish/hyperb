@@ -1,6 +1,7 @@
 require 'hyperb/images/image'
 require 'hyperb/request'
 require 'hyperb/utils'
+require 'hyperb/auth_object'
 require 'json'
 require 'uri'
 require 'base64'
@@ -55,7 +56,7 @@ module Hyperb
       query = { fromImage: params[:from_image] }
       query[:tag] = params[:tag] if params.has_key?(:tag)
       additional_headers = {}
-      additional_headers[:x_registry_auth] = Base64.urlsafe_encode64(params[:x_registry_auth].to_json) if params.has_key?(:x_registry_auth)
+      additional_headers[:x_registry_auth] = Hyperb::AuthObject.new(params[:x_registry_auth]).encode if params.has_key?(:x_registry_auth)
       res = Hyperb::Request.new(self, path, query, 'post', '', additional_headers).perform
       res
     end
