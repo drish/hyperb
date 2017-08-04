@@ -66,6 +66,18 @@ RSpec.describe Hyperb::Images do
        res = @client.create_image from_image: 'busybox'
        expect(res).to be_a HTTP::Response::Body
      end
+
+     it 'create image with auth_object' do
+       p = Hyperb::Request::BASE_URL + Hyperb::Request::VERSION + '/images/create?fromImage=gcr.io/private/custom_busybox'
+       stub_request(:post, p)
+       .to_return(body: fixture('create_image.json'))
+
+       x_registry_auth = { username: 'test', password: fixture('auth_obj.json'), email: 'test@t.com' }
+       @client.create_image from_image: 'gcr.io/private/custom_busybox', x_registry_auth: x_registry_auth
+
+       expect(a_request(:post, p)).to have_been_made
+     end
+
   end
 
   describe '#remove_image' do

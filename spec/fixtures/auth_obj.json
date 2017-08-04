@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "test-test-772219",
+  "private_key_id": "56c441e608e353555f1f5cedffb7708f777c252a",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCveubQwtjjcxrs\nAUkizhwUcAmNUiftM3IZkKJEpzdGts7BNxPndlJHiIXeJohbHQzQ0mCqy3Rd8B96\n71YgwYGyVq5CK0EYjKoE/aqZkpl00h8b90b6Flz3m5TxTpm\nf0HLo1ymAq/BEe0tBU4m7Qfi87gMJoMBCs8pjiXk8KRptxxzd8GjjwGegnKGsttx\nqGoZfPCRCo8lUAsi9I7NWyDJjL5oNAaKzHfKroECgYEAzAQDoV4L5SAOu5clWGk8\nVxZJENVpfLAaRpP974+a1ihZe/SRSbsdT7V4ro/K9sb9Y2DWM4cKlqK5SWPi275k\n+1BpJlKAKhPQ3xr1CseH6tamKNPcXLmA1lI2dijODgBaSBkCCx7JrVE0vk7ZHxMd\n19X74+OcaPmL+JUylP9Ck0k=\n-----END PRIVATE KEY-----\n",
+  "client_email": "test.iam.gserviceaccount.com",
+  "client_id": "666699092232077779398",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/test.iam.gserviceaccount.com"
+}
