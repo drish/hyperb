@@ -44,9 +44,10 @@ RSpec.describe Hyperb::Containers do
         expect(container.id).to be_a String
         expect(container.created).to be_a Fixnum
         expect(container.command).to be_a String
+        expect(container.networksettings).to be_a Hash
+        expect(container.hostconfig).to be_a Hash
       end
     end
-
   end
 
 end

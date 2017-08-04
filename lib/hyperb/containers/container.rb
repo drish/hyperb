@@ -5,10 +5,10 @@ module Hyperb
 	class Container
 
     include Hyperb::Utils
-    attr_accessor :id, :names, :image, :image_id,
+    attr_accessor :id, :names, :image, :imageid,
                   :created, :command, :ports, :labels,
-                  :size_rw, :size_root_fs, :state, :host_config,
-                  :network_settings
+                  :sizerw, :sizerootfs, :state, :hostconfig,
+                  :networksettings
 
     def initialize(attrs = {})
       attrs.each do |att, value|
