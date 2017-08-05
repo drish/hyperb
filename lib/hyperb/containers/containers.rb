@@ -38,5 +38,31 @@ module Hyperb
       response = JSON.parse(Hyperb::Request.new(self, path, query, 'get').perform)
       response.map { |container| Hyperb::Container.new(container) }
     end
+
+    # remove the container id
+    #
+    # @see https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Container/delete.html
+    #
+    # @raise [Hyperb::Error::Unauthorized] raised when credentials are not valid.
+    # @raise [Hyperb::Error::NotFound] raised when container can't be found.
+    # @raise [Hyperb::Error::Conflict] raised when container is running and can't be removed.
+    # @raise [Hyperb::Error::InternalServerError] raised when a internal server error is returned from hyper.
+    #
+    # @return [Hyperb::Container] Array of Hyperb::Container.
+    #
+    # @param params [Hash] A customizable set of params.
+    #
+    # @option params [Boolean] :v remove volumes attached. default false
+    # @option params [Boolean] :force force remove. default false
+    def remove_container(params = {})
+      raise ArgumentError.new('Invalid arguments.') if !check_arguments(params, 'id')
+      path = '/containers/' + params[:id]
+      query = {}
+      query[:v] = params[:v] if params.has_key?(:v)
+      query[:force] = params[:force] if params.has_key?(:force)
+      response = JSON.parse(Hyperb::Request.new(self, path, query, 'delete').perform)
+      downcase_symbolize(response)
+    end
+
   end
 end
