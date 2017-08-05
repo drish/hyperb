@@ -68,7 +68,7 @@ module Hyperb
     # @raise [Hyperb::Error::Unauthorized] raised when credentials are not valid.
     # @raise [Hyperb::Error::NotFound] raised when tag is not found.
     # @raise [Hyperb::Error::Conflict] raised when the image will only be removed with force.
-    # @raise [Hyperb::Error::InternalServerError] server error on hyper side.
+    # @raise [Hyperb::Error::InternalServerError] server error.
     #
     # @return [Array] array of downcase symbolized json response.
     #
