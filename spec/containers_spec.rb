@@ -99,6 +99,38 @@ RSpec.describe Hyperb::Containers do
 
       expect { @client.remove_container }.to raise_error(ArgumentError)
     end
+
+    it 'request to the correct path should be made with id=fffff' do
+      stub_request(:delete, @remove_container_path + 'fffff')
+      .to_return(body: fixture('containers.json'))
+
+      @client.remove_container(id: 'fffff')
+      expect(a_request(:delete, @remove_container_path + 'fffff')).to have_been_made
+    end
+
+    it 'request to the correct path should be made with force=true' do
+      stub_request(:delete, @remove_container_path + 'fffff?force=true')
+      .to_return(body: fixture('containers.json'))
+
+      @client.remove_container(id: 'fffff', force: true)
+      expect(a_request(:delete, @remove_container_path + 'fffff?force=true')).to have_been_made
+    end
+
+    it 'request to the correct path should be made with v=true' do
+      stub_request(:delete, @remove_container_path + 'fffff?v=true')
+      .to_return(body: fixture('containers.json'))
+
+      @client.remove_container(id: 'fffff', v: true)
+      expect(a_request(:delete, @remove_container_path + 'fffff?v=true')).to have_been_made
+    end
+
+    it 'request to the correct path should be made with v=true and force=true' do
+      stub_request(:delete, @remove_container_path + 'fffff?force=true&v=true')
+      .to_return(body: fixture('containers.json'))
+
+      @client.remove_container(id: 'fffff', v: true, force: true)
+      expect(a_request(:delete, @remove_container_path + 'fffff?force=true&v=true')).to have_been_made
+    end
   end
 
 end
