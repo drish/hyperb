@@ -7,6 +7,7 @@ RSpec.describe Hyperb::Containers do
     @client = Hyperb::Client.new(access_key: 'key', secret_key: '123')
     @containers_path = Hyperb::Request::BASE_URL + Hyperb::Request::VERSION + '/containers/json'
     @remove_container_path = Hyperb::Request::BASE_URL + Hyperb::Request::VERSION + '/containers/'
+    @create_container_path = Hyperb::Request::BASE_URL + Hyperb::Request::VERSION + '/containers/create'
   end
 
   describe '#containers' do
@@ -131,6 +132,26 @@ RSpec.describe Hyperb::Containers do
       @client.remove_container(id: 'fffff', v: true, force: true)
       expect(a_request(:delete, @remove_container_path + 'fffff?force=true&v=true')).to have_been_made
     end
+  end
+
+  describe '#create_container' do
+
+    it 'should raise ArgumentError when image is not provided' do
+      stub_request(:post, @create_container_path)
+      .to_return(body: fixture('create_container.json'))
+
+      expect { @client.create_container }.to raise_error(ArgumentError)
+    end
+
+    it 'request to the correct path should be made with name=container_name' do
+      stub_request(:post, @create_container_path + '?name=container_name')
+      .with(body: { image: 'image' })
+      .to_return(body: fixture('create_container.json'))
+
+      @client.create_container(image: 'image', name: 'container_name')
+      expect(a_request(:post, @create_container_path + '?name=container_name')).to have_been_made
+    end
+
   end
 
 end
