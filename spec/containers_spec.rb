@@ -27,6 +27,46 @@ RSpec.describe Hyperb::Containers do
       expect(a_request(:get, @containers_path + '?all=true')).to have_been_made
     end
 
+    it 'request to the correct path should be made with limit=5' do
+      stub_request(:get, @containers_path + '?limit=5')
+      .to_return(body: fixture('containers.json'))
+
+      @client.containers(limit: 5)
+      expect(a_request(:get, @containers_path + '?limit=5')).to have_been_made
+    end
+
+    it 'request to the correct path should be made with since=someId' do
+      stub_request(:get, @containers_path + '?since=3afff57')
+      .to_return(body: fixture('containers.json'))
+
+      @client.containers(since: '3afff57')
+      expect(a_request(:get, @containers_path + '?since=3afff57')).to have_been_made
+    end
+
+    it 'request to the correct path should be made with before=someId' do
+      stub_request(:get, @containers_path + '?before=3afff57')
+      .to_return(body: fixture('containers.json'))
+
+      @client.containers(before: '3afff57')
+      expect(a_request(:get, @containers_path + '?before=3afff57')).to have_been_made
+    end
+
+    it 'request to the correct path should be made with all=true and since=someId' do
+      stub_request(:get, @containers_path + '?all=true&since=3afff57')
+      .to_return(body: fixture('containers.json'))
+
+      @client.containers(all: true, since: '3afff57')
+      expect(a_request(:get, @containers_path + '?all=true&since=3afff57')).to have_been_made
+    end
+
+    it 'request to the correct path should be made with size=true' do
+      stub_request(:get, @containers_path + '?size=true')
+      .to_return(body: fixture('containers.json'))
+
+      @client.containers(size: true)
+      expect(a_request(:get, @containers_path + '?size=true')).to have_been_made
+    end
+
     it 'return array of containers' do
       stub_request(:get, @containers_path + '?all=true')
       .to_return(body: fixture('containers.json'))
