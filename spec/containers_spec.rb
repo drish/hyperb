@@ -6,6 +6,7 @@ RSpec.describe Hyperb::Containers do
   before do
     @client = Hyperb::Client.new(access_key: 'key', secret_key: '123')
     @containers_path = Hyperb::Request::BASE_URL + Hyperb::Request::VERSION + '/containers/json'
+    @remove_container_path = Hyperb::Request::BASE_URL + Hyperb::Request::VERSION + '/containers/'
   end
 
   describe '#containers' do
@@ -87,6 +88,16 @@ RSpec.describe Hyperb::Containers do
         expect(container.networksettings).to be_a Hash
         expect(container.hostconfig).to be_a Hash
       end
+    end
+  end
+
+  describe '#remove_container' do
+
+    it 'should raise ArgumentError when id is not provided' do
+      stub_request(:delete, @remove_container_path)
+      .to_return(body: fixture('containers.json'))
+
+      expect { @client.remove_container }.to raise_error(ArgumentError)
     end
   end
 
