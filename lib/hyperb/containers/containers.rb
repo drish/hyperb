@@ -69,6 +69,7 @@ module Hyperb
     # @see https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Container/create.html
     #
     # @raise [Hyperb::Error::Unauthorized] raised when credentials are not valid.
+    # @raise [Hyperb::Error::Conflict] raised container with the same name is already created.
     # @raise [Hyperb::Error::InternalServerError] raised when a internal server error is returned from hyper.
     #
     # @return [Hash] Array of downcased symbolized json response.
@@ -77,13 +78,39 @@ module Hyperb
     #
     # @option params [String] :name container name
     # @option params [String] :image image to be used
+    # @option params [String] :hostname container hostname
     def create_container(params = {})
       raise ArgumentError.new('Invalid arguments.') if !check_arguments(params, 'image')
       path = '/containers/create'
       query, body = {}, {}
       query[:name] = params[:name] if params.has_key?(:name)
       body[:image] = params[:image] if params.has_key?(:image)
+      body[:hostname] = params[:hostname] if params.has_key?(:hostname)
       response = JSON.parse(Hyperb::Request.new(self, path, query, 'post', body).perform)
+      downcase_symbolize(response)
+    end
+
+
+    # inspect a container
+    #
+    # @see https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Container/inspect.html
+    #
+    # @raise [Hyperb::Error::Unauthorized] raised when credentials are not valid.
+    # @raise [Hyperb::Error::NotFound] raised when the container can't be find.
+    # @raise [Hyperb::Error::InternalServerError] raised when a internal server error is returned from hyper.
+    #
+    # @return [Hash] Array of downcased symbolized json response.
+    #
+    # @param params [Hash] A customizable set of params.
+    #
+    # @option params [String] :id container's name or id
+    # @option params [String] :size include container's size on response
+    def inspect_container(params = {})
+      raise ArgumentError.new('Invalid arguments.') if !check_arguments(params, 'id')
+      path = '/containers/' + params[:id] + '/json'
+      query = {}
+      query[:size] = params[:size] if params.has_key?(:size)
+      response = JSON.parse(Hyperb::Request.new(self, path, query, 'get').perform)
       downcase_symbolize(response)
     end
 
