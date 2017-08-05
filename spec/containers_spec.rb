@@ -152,6 +152,16 @@ RSpec.describe Hyperb::Containers do
       expect(a_request(:post, @create_container_path + '?name=container_name')).to have_been_made
     end
 
+    it 'correct request should be made with hostname' do
+      path = @create_container_path + '?name=container_name'
+
+      stub_request(:post, path)
+      .with(body: { image: 'image', hostname: 'hostnamy' })
+      .to_return(body: fixture('create_container.json'))
+
+      @client.create_container(image: 'image', name: 'container_name', hostname: 'hostnamy')
+      expect(a_request(:post, path).with(body: { image: 'image', hostname: 'hostnamy' })).to have_been_made
+    end
   end
 
 end
