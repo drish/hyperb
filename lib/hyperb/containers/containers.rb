@@ -64,5 +64,28 @@ module Hyperb
       downcase_symbolize(response)
     end
 
+    # create a container
+    #
+    # @see https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Container/create.html
+    #
+    # @raise [Hyperb::Error::Unauthorized] raised when credentials are not valid.
+    # @raise [Hyperb::Error::InternalServerError] raised when a internal server error is returned from hyper.
+    #
+    # @return [Hash] Array of downcased symbolized json response.
+    #
+    # @param params [Hash] A customizable set of params.
+    #
+    # @option params [String] :name container name
+    # @option params [String] :image image to be used
+    def create_container(params = {})
+      raise ArgumentError.new('Invalid arguments.') if !check_arguments(params, 'image')
+      path = '/containers/create'
+      query, body = {}, {}
+      query[:name] = params[:name] if params.has_key?(:name)
+      body[:image] = params[:image] if params.has_key?(:image)
+      response = JSON.parse(Hyperb::Request.new(self, path, query, 'post', body).perform)
+      downcase_symbolize(response)
+    end
+
   end
 end
