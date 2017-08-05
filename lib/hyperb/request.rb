@@ -25,8 +25,8 @@ module Hyperb
       @client = client
       @path = VERSION + path
       @query = URI.encode_www_form(query)
-      @body = body
-      @hashed_body = hexdigest(body)
+      body.empty? ? @body = body : @body = body.to_json
+      @hashed_body = hexdigest(@body)
       @verb = verb.upcase
       @date = Time.now.utc.strftime(FMT)
       @headers = {
@@ -42,7 +42,9 @@ module Hyperb
     def perform(stream = false)
       sign if !signed
       final = BASE_URL + @path + '?' + @query
-      response = HTTP.headers(@headers).public_send(@verb.downcase.to_sym, final)
+      options = {}
+      options[:body] = @body if !@body.empty?
+      response = HTTP.headers(@headers).public_send(@verb.downcase.to_sym, final, options)
       fail_or_return(response.code, response.body, response.headers, stream)
     end
 
