@@ -96,17 +96,28 @@ RSpec.describe Hyperb::Containers do
 
   describe '#inspect_container' do
 
+    before do
+      stub_request(:get, @containers_base_path + 'name/json')
+      .to_return(body: fixture('inspect_container.json'))
+    end
+
     it 'should raise ArgumentError when id is missing' do
       expect { @client.inspect_container }.to raise_error(ArgumentError)
     end
 
     it 'request to the correct path should be made' do
-      stub_request(:get, @containers_base_path + 'name/json')
-      .to_return(body: fixture('inspect_container.json'))
-
       @client.inspect_container id: 'name'
       expect(a_request(:get, @containers_base_path + 'name/json')).to have_been_made
     end
+
+    it 'return a hash with symbolized attrs' do
+      res = @client.inspect_container(id: 'name')
+      expect(res).to be_a Hash
+      expect(res.has_key?(:args)).to be true
+      expect(res.has_key?(:config)).to be true
+      expect(res.has_key?(:created)).to be true
+    end
+
   end
 
   describe '#remove_container' do
