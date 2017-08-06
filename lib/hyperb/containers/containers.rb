@@ -224,6 +224,25 @@ module Hyperb
       Hyperb::Request.new(self, path, query, 'get').perform
     end
 
+    # kill a container
+    #
+    # @see https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Container/kill.html
+    #
+    # @raise [Hyperb::Error::Unauthorized] raised when credentials are not valid.
+    # @raise [Hyperb::Error::NotFound] raised when the container can't be found.
+    # @raise [Hyperb::Error::InternalServerError] raised when a internal server error is returned from hyper.
+    #
+    #
+    # @param params [Hash] A customizable set of params.
+    # @option params [String] :id container's name or id
+    # @option params [String] :signal stream output
+    def kill_container(params = {})
+      raise ArgumentError.new('Invalid arguments.') if !check_arguments(params, 'id')
+      path = '/containers/' + params[:id] + '/kill'
+      query = {}
+      query[:signal] = params[:signal] if params.has_key?(:signal)
+      Hyperb::Request.new(self, path, query, 'post').perform
+    end
   end
 
 end
