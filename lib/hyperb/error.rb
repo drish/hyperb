@@ -10,6 +10,9 @@ module Hyperb
     # 5xx HTTP status code
     ServerError = Class.new(self)
 
+    # hyper uses code 304 as a server representation for some operations
+    NotModified = Class.new(ClientError)
+
     # code 400
     BadRequest = Class.new(ClientError)
 
@@ -26,6 +29,7 @@ module Hyperb
     InternalServerError = Class.new(ServerError)
 
     ERRORS = {
+      304 => Hyperb::Error::NotModified,
       400 => Hyperb::Error::BadRequest,
       401 => Hyperb::Error::Unauthorized,
       404 => Hyperb::Error::NotFound,
