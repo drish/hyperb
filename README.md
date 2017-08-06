@@ -32,13 +32,13 @@ client = Hyperb::Client.new(access_key: 'ak', secret_key: 'sk')
 ```ruby
 client.version
 => {
-	"Version"=>"Hyper.sh Public Service",
-	"ApiVersion"=>"1.23",
-	"GitCommit"=>"",
-	"GoVersion"=>"go1.8.1",
-	"Os"=>"linux",
-	"Arch"=>"amd64",
-	"KernelVersion"=>"4.0.0"
+  "Version"=>"Hyper.sh Public Service",
+  "ApiVersion"=>"1.23",
+  "GitCommit"=>"",
+  "GoVersion"=>"go1.8.1",
+  "Os"=>"linux",
+  "Arch"=>"amd64",
+  "KernelVersion"=>"4.0.0"
 }
 ```
 
