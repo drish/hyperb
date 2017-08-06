@@ -344,4 +344,31 @@ RSpec.describe Hyperb::Containers do
 
   end
 
+  describe '#kill_container' do
+
+    it 'should raise ArgumentError when id is not provided' do
+      expect { @client.kill_container }.to raise_error(ArgumentError)
+    end
+
+    it 'correct request should be made' do
+      path = @containers_base_path + 'id/kill'
+
+      stub_request(:post, path)
+      .to_return(body: "")
+
+      @client.kill_container(id: 'id')
+      expect(a_request(:post, path)).to have_been_made
+    end
+
+    it 'correct request should be made with signal' do
+      path = @containers_base_path + 'id/kill?signal=signal'
+
+      stub_request(:post, path)
+      .to_return(body: "")
+
+      @client.kill_container(id: 'id', signal: 'signal')
+      expect(a_request(:post, path)).to have_been_made
+    end
+  end
+
 end
