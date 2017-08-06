@@ -287,4 +287,33 @@ RSpec.describe Hyperb::Containers do
     end
   end
 
+  describe '#stop_container' do
+
+    it 'should raise ArgumentError when id is not provided' do
+      expect { @client.container_logs }.to raise_error(ArgumentError)
+    end
+
+    it 'correct request should be made' do
+      path = @containers_base_path + 'id/stop'
+
+      stub_request(:post, path)
+      .to_return(body: "")
+
+      @client.stop_container(id: 'id')
+      expect(a_request(:post, path)
+            .with(body: "")).to have_been_made
+    end
+
+    it 'correct request should be made with t' do
+      path = @containers_base_path + 'id/stop?t=50'
+
+      stub_request(:post, path)
+      .to_return(body: "")
+
+      @client.stop_container(id: 'id', t: 50)
+      expect(a_request(:post, path)
+            .with(body: "")).to have_been_made
+    end
+  end
+
 end

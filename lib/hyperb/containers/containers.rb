@@ -39,6 +39,28 @@ module Hyperb
       response.map { |container| Hyperb::Container.new(container) }
     end
 
+    # stop the container id
+    #
+    # @see https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Container/stop.html
+    #
+    # @raise [Hyperb::Error::Unauthorized] raised when credentials are not valid.
+    # @raise [Hyperb::Error::NotFound] raised when container can't be found.
+    # @raise [Hyperb::Error::Conflict] raised when container is running and can't be removed.
+    # @raise [Hyperb::Error::InternalServerError] raised when a internal server error is returned from hyper.
+    #
+    #
+    # @param params [Hash] A customizable set of params.
+    #
+    # @option params [Boolean] :t number of seconds to wait before killing the container.
+    def stop_container(params = {})
+      raise ArgumentError.new('Invalid arguments.') if !check_arguments(params, 'id')
+      path = '/containers/' + params[:id] + '/stop'
+      query = {}
+      query[:t] = params[:t] if params.has_key?(:t)
+      Hyperb::Request.new(self, path, query, 'post').perform
+    end
+
+
     # remove the container id
     #
     # @see https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Container/delete.html
@@ -139,7 +161,6 @@ module Hyperb
     # @raise [Hyperb::Error::BadRequest] raised when request is invalid.
     # @raise [Hyperb::Error::InternalServerError] raised when a internal server error is returned from hyper.
     #
-    # @return [String]
     #
     # @param params [Hash] A customizable set of params.
     # @option params [String] :id container's name or id
@@ -147,7 +168,6 @@ module Hyperb
       raise ArgumentError.new('Invalid arguments.') if !check_arguments(params, 'id')
       path = '/containers/' + params[:id] + '/start'
       Hyperb::Request.new(self, path, {}, 'post').perform
-      ""
     end
 
     # container logs
