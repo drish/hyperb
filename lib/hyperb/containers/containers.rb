@@ -163,6 +163,12 @@ module Hyperb
     #
     # @param params [Hash] A customizable set of params.
     # @option params [String] :id container's name or id
+    # @option params [String] :follow stream output
+    # @option params [String] :stderr stream stderr
+    # @option params [String] :stdout stream stdout
+    # @option params [String] :since stream outputs since id
+    # @option params [String] :timestamps include timestamps on stdouts, default false
+    # @option params [String] :tail tail number
     def container_logs(params = {})
       raise ArgumentError.new('Invalid arguments.') if !check_arguments(params, 'id')
       path = '/containers/' + params[:id] + '/logs'
