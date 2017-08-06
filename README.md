@@ -87,7 +87,7 @@ puts response
 
 #### remove_image
 
-returns an Array of hashes containing information about the deleted iamge
+returns an Array of hashes containing information about the deleted image
 
 ```ruby
 response = client.remove_image(name: 'busybox')
@@ -101,9 +101,26 @@ response = client.remove_image(name: 'busybox', force: true)
 => [{:untagged=>"busybox:latest"}, {:deleted=>"sha256:efe10ee6727fe52d2db2eb5045518fe98d8e31fdad1cbdd5e1f737018c349ebb"}]
 ```
 
+#### inspect_image
+
+returns a Hash containing information about the inspected image
+
+```ruby
+info = client.inspect_image(id: 'busybox')
+puts info
+```
+
 ### Containers
 
 TODO:
+
+### Volumes
+
+#### remove_volume
+
+```ruby
+client.remove_volume(id: 'volume-name')
+```
 
 ### Fips
 
