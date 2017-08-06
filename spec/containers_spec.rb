@@ -290,7 +290,7 @@ RSpec.describe Hyperb::Containers do
   describe '#stop_container' do
 
     it 'should raise ArgumentError when id is not provided' do
-      expect { @client.container_logs }.to raise_error(ArgumentError)
+      expect { @client.stop_container }.to raise_error(ArgumentError)
     end
 
     it 'correct request should be made' do
@@ -314,6 +314,34 @@ RSpec.describe Hyperb::Containers do
       expect(a_request(:post, path)
             .with(body: "")).to have_been_made
     end
+  end
+
+  describe '#container_stats' do
+
+    it 'should raise ArgumentError when id is not provided' do
+      expect { @client.container_stats }.to raise_error(ArgumentError)
+    end
+
+    it 'correct request should be made' do
+      path = @containers_base_path + 'id/stats'
+
+      stub_request(:get, path)
+      .to_return(body: fixture('container_stats.json'))
+
+      @client.container_stats(id: 'id')
+      expect(a_request(:get, path)).to have_been_made
+    end
+
+    it 'correct request should be made with stream' do
+      path = @containers_base_path + 'id/stats?stream=false'
+
+      stub_request(:get, path)
+      .to_return(body: fixture('container_stats.json'))
+
+      @client.container_stats(id: 'id', stream: false)
+      expect(a_request(:get, path)).to have_been_made
+    end
+
   end
 
 end
