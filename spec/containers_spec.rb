@@ -5,9 +5,11 @@ RSpec.describe Hyperb::Containers do
 
   before do
     @client = Hyperb::Client.new(access_key: 'key', secret_key: '123')
-    @containers_path = Hyperb::Request::BASE_URL + Hyperb::Request::VERSION + '/containers/json'
-    @remove_container_path = Hyperb::Request::BASE_URL + Hyperb::Request::VERSION + '/containers/'
-    @create_container_path = Hyperb::Request::BASE_URL + Hyperb::Request::VERSION + '/containers/create'
+
+    @containers_base_path = Hyperb::Request::BASE_URL + Hyperb::Request::VERSION + '/containers/'
+    @containers_path =  @containers_base_path + 'json'
+    @remove_container_path = @containers_base_path
+    @create_container_path = @containers_base_path + 'create'
   end
 
   describe '#containers' do
@@ -89,6 +91,21 @@ RSpec.describe Hyperb::Containers do
         expect(container.networksettings).to be_a Hash
         expect(container.hostconfig).to be_a Hash
       end
+    end
+  end
+
+  describe '#inspect_container' do
+
+    it 'should raise ArgumentError when id is missing' do
+      expect { @client.inspect_container }.to raise_error(ArgumentError)
+    end
+
+    it 'request to the correct path should be made' do
+      stub_request(:get, @containers_base_path + 'name/json')
+      .to_return(body: fixture('inspect_container.json'))
+
+      @client.inspect_container id: 'name'
+      expect(a_request(:get, @containers_base_path + 'name/json')).to have_been_made
     end
   end
 
