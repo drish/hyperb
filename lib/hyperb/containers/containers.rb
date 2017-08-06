@@ -201,6 +201,29 @@ module Hyperb
       query[:tail] = params[:tail] if params.has_key?(:tail)
       Hyperb::Request.new(self, path, query, 'get').perform
     end
+
+    # container stats
+    #
+    # @see https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Container/logs.html
+    #
+    # @raise [Hyperb::Error::Unauthorized] raised when credentials are not valid.
+    # @raise [Hyperb::Error::NotFound] raised when the container can't be found.
+    # @raise [Hyperb::Error::BadRequest] raised when request is invalid.
+    # @raise [Hyperb::Error::InternalServerError] raised when a internal server error is returned from hyper.
+    #
+    # @return [HTTP::Response::Body] a streamable http response body object
+    #
+    # @param params [Hash] A customizable set of params.
+    # @option params [String] :id container's name or id
+    # @option params [String] :stream stream output
+    def container_stats(params = {})
+      raise ArgumentError.new('Invalid arguments.') if !check_arguments(params, 'id')
+      path = '/containers/' + params[:id] + '/stats'
+      query = {}
+      query[:stream] = params[:stream] if params.has_key?(:stream)
+      Hyperb::Request.new(self, path, query, 'get').perform
+    end
+
   end
 
 end
