@@ -173,7 +173,7 @@ RSpec.describe Hyperb::Containers do
 
     it 'request to the correct path should be made with name=container_name' do
       stub_request(:post, @create_container_path + '?name=container_name')
-      .with(body: { image: 'image' })
+      .with(body: { image: 'image', labels: { sh_hyper_instancetype: 's1' } })
       .to_return(body: fixture('create_container.json'))
 
       @client.create_container(image: 'image', name: 'container_name')
@@ -184,11 +184,106 @@ RSpec.describe Hyperb::Containers do
       path = @create_container_path + '?name=container_name'
 
       stub_request(:post, path)
-      .with(body: { image: 'image', hostname: 'hostnamy' })
+      .with(body: { image: 'image', hostname: 'hostnamy', labels: { sh_hyper_instancetype: 's1' }})
       .to_return(body: fixture('create_container.json'))
 
       @client.create_container(image: 'image', name: 'container_name', hostname: 'hostnamy')
-      expect(a_request(:post, path).with(body: { image: 'image', hostname: 'hostnamy' })).to have_been_made
+      expect(a_request(:post, path)
+            .with(body: { image: 'image', hostname: 'hostnamy', labels: { sh_hyper_instancetype: 's1' }})).to have_been_made
+    end
+
+    it 'correct request should be made with entrypoint' do
+      path = @create_container_path
+
+      stub_request(:post, path)
+      .with(body: { image: 'image', entrypoint: 'test entry', labels: { sh_hyper_instancetype: 's1' }})
+      .to_return(body: fixture('create_container.json'))
+
+      @client.create_container(image: 'image', entrypoint: 'test entry')
+      expect(a_request(:post, path)
+            .with(body: { image: 'image', entrypoint: 'test entry', labels: { sh_hyper_instancetype: 's1' } })).to have_been_made
+    end
+
+    it 'correct request should be made with cmd' do
+      path = @create_container_path
+
+      stub_request(:post, path)
+      .with(body: { image: 'image', cmd: 'test cmd', labels: { sh_hyper_instancetype: 's1' } })
+      .to_return(body: fixture('create_container.json'))
+
+      @client.create_container(image: 'image', cmd: 'test cmd')
+      expect(a_request(:post, path)
+            .with(body: { image: 'image', cmd: 'test cmd', labels: { sh_hyper_instancetype: 's1' } })).to have_been_made
+    end
+  end
+
+  describe '#start_container' do
+
+    it 'should raise ArgumentError when id is not provided' do
+      expect { @client.start_container }.to raise_error(ArgumentError)
+    end
+
+    it 'correct request should be made' do
+      path = @containers_base_path + 'id/start'
+
+      stub_request(:post, path)
+      .to_return(body: "")
+
+      @client.start_container(id: 'id')
+      expect(a_request(:post, path)
+            .with(body: "")).to have_been_made
+    end
+
+  end
+
+  describe '#container_logs' do
+
+    it 'should raise ArgumentError when id is not provided' do
+      expect { @client.container_logs }.to raise_error(ArgumentError)
+    end
+
+    it 'correct request should be made with follow' do
+      path = @containers_base_path + 'id/logs?follow=true'
+
+      stub_request(:get, path)
+      .to_return(body: "")
+
+      @client.container_logs(id: 'id', follow: true)
+      expect(a_request(:get, path)
+            .with(body: "")).to have_been_made
+    end
+
+    it 'correct request should be made with stderr' do
+      path = @containers_base_path + 'id/logs?stderr=true'
+
+      stub_request(:get, path)
+      .to_return(body: "")
+
+      @client.container_logs(id: 'id', stderr: true)
+      expect(a_request(:get, path)
+            .with(body: "")).to have_been_made
+    end
+
+    it 'correct request should be made with since' do
+      path = @containers_base_path + 'id/logs?since=someid'
+
+      stub_request(:get, path)
+      .to_return(body: "")
+
+      @client.container_logs(id: 'id', since: 'someid')
+      expect(a_request(:get, path)
+            .with(body: "")).to have_been_made
+    end
+
+    it 'correct request should be made with timestamps' do
+      path = @containers_base_path + 'id/logs?timestamps=true'
+
+      stub_request(:get, path)
+      .to_return(body: "")
+
+      @client.container_logs(id: 'id', timestamps: true)
+      expect(a_request(:get, path)
+            .with(body: "")).to have_been_made
     end
   end
 
