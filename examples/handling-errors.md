@@ -2,6 +2,10 @@
 
 Hyperb has set of exceptions representing Hyper.sh errors.
 
+#### Hyperb::Errors::Unauthorized
+
+raised when credentials are invalid
+
 #### Hyperb::Errors::NotFound
 
 raised when resource can't be found
@@ -16,8 +20,7 @@ usually when a container or image can't be deleted or stopped for some reason.
 
 #### Hyperb::Errors::NotModified
 
-usually when a container can't be deleted or stopped because it was already stopped.
-
+usually when a container can't be stopped because it was already stopped.
 
 Examples:
 
