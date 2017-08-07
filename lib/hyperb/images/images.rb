@@ -17,6 +17,7 @@ module Hyperb
     # @raise [Hyperb::Error::Unauthorized] raised when credentials are not valid.
     #
     # @return [Hyperb::Image] Array of Images.
+    #
     # @param params [Hash] A customizable set of params.
     # @option params [String] :all default is true
     # @option params [String] :filter only return image with the specified name
