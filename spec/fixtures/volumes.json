@@ -1,0 +1,13 @@
+{
+  "Volumes": [
+    {
+      "Name": "tardis",
+      "Driver": "",
+      "Mountpoint": "",
+      "Labels": {
+          "size": "10",
+          "snapshot": ""
+      }
+    }
+  ]
+}
