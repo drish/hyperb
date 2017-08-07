@@ -1,8 +1,8 @@
-## API
+# API
 
 Other examples: [Authenticating in GCR](https://github.com/drish/hyperb/blob/master/examples/auth-gcr-registry.md), [Streaming Logs](https://github.com/drish/hyperb/blob/master/examples/streaming-logs.md), [Streaming-stats](https://github.com/drish/hyperb/blob/master/examples/streaming-stats.md)
 
-### Images
+## Images API
 
 #### images
 
@@ -75,7 +75,7 @@ info = client.inspect_image(id: 'busybox')
 puts info
 ```
 
-### Containers
+## Containers API
 
 #### create_container
 
@@ -193,7 +193,7 @@ while body = logs.readpartial(1024)
 end
 ```
 
-### Volumes
+## Volumes API
 
 #### remove_volume
 
@@ -207,11 +207,24 @@ client.remove_volume id: 'volume-name'
 client.inspect_volume id: 'volume-id'
 ```
 
-### Fips
+## Fips API
 
-TODO:
+TODO
 
-### Misc.
+## Events API
+
+TODO
+
+## Network API
+
+TODO
+
+## Snapshot API
+
+TODO
+
+
+## Misc.
 
 #### Version
 
