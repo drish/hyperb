@@ -1,6 +1,9 @@
 AllCops:
   Exclude:
     - 'spec/*'
+    - 'Rakefile'
+    - 'Gemfile'
+    - '*.gemspec'
   TargetRubyVersion: 2.3
 
 Style/FrozenStringLiteralComment:
@@ -29,9 +32,16 @@ Metrics/BlockLength:
     - 'Rakefile'
     - 'spec/**/*.rb'
 
+Metrics/MethodLength:
+  CountComments: false  # count full line comments?
+  Max: 15
+
 Metrics/ModuleLength:
   Exclude:
     - 'spec/**/*.rb'
 
 Metrics/LineLength:
   Max: 100
+
+Metrics/ParameterLists:
+  Max: 6
