@@ -1,9 +1,8 @@
 require 'hyperb/utils'
 
 module Hyperb
-
-	class Container
-
+  # container object
+  class Container
     include Hyperb::Utils
     attr_accessor :id, :names, :image, :imageid,
                   :created, :command, :ports, :labels,
@@ -24,6 +23,5 @@ module Hyperb
     def running?
       state == 'running'
     end
-
   end
 end
