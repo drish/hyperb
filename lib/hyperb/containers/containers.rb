@@ -64,7 +64,7 @@ module Hyperb
     # @raise [Hyperb::Error::Conflict] raised when container is running and can't be removed.
     # @raise [Hyperb::Error::InternalServerError] raised when a 5xx is returned.
     #
-    # @return [Hyperb::Container] Array of Hyperb::Container.
+    # @return [Hash] downcased symbolized json response.
     #
     # @param params [Hash] A customizable set of params.
     #
@@ -88,7 +88,7 @@ module Hyperb
     # @raise [Hyperb::Error::Conflict] raised container with the same name is already created.
     # @raise [Hyperb::Error::InternalServerError] raised when a 5xx is returned
     #
-    # @return [Hash] Array of downcased symbolized json response.
+    # @return [Hash] hash containing downcased symbolized json response.
     #
     # @param params [Hash] A customizable set of params.
     #
@@ -99,7 +99,7 @@ module Hyperb
     # @option params [String] :cmd container command
     #
     # @option params [Hash] :labels hash containing key: value
-    # @option params labels [String] :sh_hyper_instancetype container size: s1, s2, s3 . . .
+    # @option params labels [String] :sh_hyper_instancetype container size: s1, s2, s3 ...
     def create_container(params = {})
       raise ArgumentError, 'Invalid arguments.' unless check_arguments(params, 'image')
       path = '/containers/create'

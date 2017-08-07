@@ -23,7 +23,7 @@ Or install it yourself as:
 
 ## Configuration
 
-Hyper.sh requires you to create credentials at their [dashboard](https://console.hyper.sh/account/credential), after that you might configure your client as following:
+Hyper.sh requires you to create credentials on their [dashboard](https://console.hyper.sh/account/credential), after that you can configure your client as following:
 
 ```ruby
 client = Hyperb::Client.new(access_key: 'ak', secret_key: 'sk')
@@ -108,7 +108,7 @@ For more usage examples, please see the full [documentation][].
 
 ### Containers
 
-* create container
+* create container (not all arguments supported yet)
 * start container
 * stop container
 * kill container
