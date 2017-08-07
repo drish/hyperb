@@ -27,17 +27,29 @@ Or install it yourself as:
 client = Hyperb::Client.new(access_key: 'ak', secret_key: 'sk')
 ```
 
-## API Covered
+## APIs (v1.23) Covered
 
-#### Images
+### Images
 
-Inspect Image :white_check_mark:
+* inspect image
+* create image
+* list images
+* remove images
 
-Create Image (with auth object included)  :white_check_mark:
+### Volumes
 
-List Images  :white_check_mark:
+* list volumes
+* inspect volume
+* remove volume
 
-Remove Image :white_check_mark:
+### Containers
+
+* create container
+* start container
+* kill container
+* get container logs
+* get container stats
+* remove containers
 
 ## Contributing
 
