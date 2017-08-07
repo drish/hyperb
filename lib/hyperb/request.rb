@@ -7,9 +7,8 @@ require 'digest'
 require 'json'
 
 module Hyperb
-
+  # wraps all requests, performing aws4 signature
   class Request
-
     FMT = '%Y%m%dT%H%M%SZ'.freeze
     VERSION = 'v1.23'.freeze
     HOST = 'us-west-1.hyper.sh'.freeze
@@ -25,30 +24,30 @@ module Hyperb
       @client = client
       @path = VERSION + path
       @query = URI.encode_www_form(query)
-      body.empty? ? @body = body : @body = body.to_json
+      @body = body.empty? ? body : body.to_json
       @hashed_body = hexdigest(@body)
       @verb = verb.upcase
       @date = Time.now.utc.strftime(FMT)
       @headers = {
-        :content_type => 'application/json',
-        :x_hyper_date => @date,
-        :host => HOST,
-        :x_hyper_content_sha256 => @hashed_body
+        content_type: 'application/json',
+        x_hyper_date: @date,
+        host: HOST,
+        x_hyper_content_sha256: @hashed_body
       }
-      @headers.merge!(optional_headers) if !optional_headers.empty?
+      @headers.merge!(optional_headers) unless optional_headers.empty?
       @signed = false
     end
 
-    def perform(stream = false)
-      sign if !signed
+    def perform
+      sign unless signed
       final = BASE_URL + @path + '?' + @query
       options = {}
-      options[:body] = @body if !@body.empty?
+      options[:body] = @body unless @body.empty?
       response = HTTP.headers(@headers).public_send(@verb.downcase.to_sym, final, options)
-      fail_or_return(response.code, response.body, response.headers, stream)
+      fail_or_return(response.code, response.body)
     end
 
-    def fail_or_return(code, body, headers, stream)
+    def fail_or_return(code, body)
       error = Hyperb::Error::ERRORS[code]
       raise(error.new(body, code)) if error
       body
@@ -58,20 +57,25 @@ module Hyperb
     # ie:
     # content-type;x-hyper-hmac-sha256
     def signed_headers
-      @headers.keys.sort.map { |header| header.to_s.gsub('_', '-') }.join(';')
+      @headers.keys.sort.map { |header| header.to_s.tr('_', '-') }.join(';')
     end
 
     # sorts all headers, join them by `:`, and re-join by \n
     # ie:
     # content-type:application\nhost:us-west-1.hyper.sh
     def canonical_headers
-      @headers.sort.map { |header, value| "#{header.to_s.gsub('_', '-')}:#{value}" }.join("\n") + "\n"
+      canonical = @headers.sort.map do |header, value|
+        "#{header.to_s.tr('_', '-')}:#{value}"
+      end
+      canonical.join("\n") + "\n"
     end
 
     # creates Authoriatization header
     def sign
       credential = "#{@client.access_key}/#{credential_scope}"
-      auth = "#{ALGORITHM} Credential=#{credential}, SignedHeaders=#{signed_headers}, Signature=#{signature}"
+      auth = "#{ALGORITHM} Credential=#{credential}, "
+      auth += "SignedHeaders=#{signed_headers}, "
+      auth += "Signature=#{signature}"
       @headers[:authorization] = auth
       @signed = true
     end
@@ -79,7 +83,7 @@ module Hyperb
     # setup signature key
     # https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/index.html
     def signature
-      k_date = hmac('HYPER' + @client.secret_key, @date[0,8])
+      k_date = hmac('HYPER' + @client.secret_key, @date[0, 8])
       k_region = hmac(k_date, REGION)
       k_service = hmac(k_region, SERVICE)
       k_credentials = hmac(k_service, KEYPARTS_REQUEST)
@@ -87,12 +91,7 @@ module Hyperb
     end
 
     def string_to_sign
-      [
-        ALGORITHM,
-        @date,
-        credential_scope,
-        hexdigest(canonical_request)
-      ].join("\n")
+      [ALGORITHM, @date, credential_scope, hexdigest(canonical_request)].join("\n")
     end
 
     def canonical_request
@@ -108,11 +107,11 @@ module Hyperb
 
     def credential_scope
       [
-        @date[0,8],
+        @date[0, 8],
         REGION,
         SERVICE,
         KEYPARTS_REQUEST
-      ].join("/")
+      ].join("/") # rubocop:disable StringLiterals
     end
 
     def hexdigest(value)
@@ -126,6 +125,5 @@ module Hyperb
     def hexhmac(key, value)
       OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha256'), key, value)
     end
-
   end
 end

@@ -3,9 +3,8 @@ require 'hyperb/containers/containers'
 require 'hyperb/volumes/volumes'
 require 'hyperb/hyper_version'
 
-# wrapper for modules
 module Hyperb
-
+  # wrapper for apis
   module API
     include Hyperb::Images
     include Hyperb::Containers
