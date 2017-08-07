@@ -18,7 +18,7 @@ end
 
 #### create_image
 
-return a HTTP::Response::Body, which can be streamed.
+return a [HTTP::Response::Bod](http://www.rubydoc.info/gems/http/HTTP/Response/Body), which can be streamed.
 
 ```ruby
 response = client.create_image from_image: 'busybox'
@@ -80,7 +80,6 @@ puts info
 #### create_container
 
 Return a hash containing downcased symbolized container info.
-
 
 ```ruby
 res = client.create_container name 'nginx-c', image: 'nginx', labels: { sh_hyper_instancetype: 'm1' }
@@ -146,7 +145,7 @@ puts data
 
 #### container_logs
 
-Returns a streamable HTTP:Response::Body object
+Returns a streamable [HTTP:Response::Body](http://www.rubydoc.info/gems/http/HTTP/Response/Body) object
 
 Simple logs
 
@@ -174,7 +173,7 @@ puts data
 
 #### container_stats
 
-Returns a streamable HTTP:Response::Body object
+Returns a streamable [HTTP:Response::Body](http://www.rubydoc.info/gems/http/HTTP/Response/Body) object
 
 Get stats at the time of the request
 
