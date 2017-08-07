@@ -52,7 +52,7 @@ module Hyperb
     #
     # @raise [Hyperb::Error::Unauthorized] raised when credentials are not valid.
     #
-    # @return [Hash] array of downcase symbolized json response.
+    # @return [Hash] of downcase symbolized json response.
     #
     # @param params [Hash] A customizable set of params.
     # @option params [String] :id volume id or name

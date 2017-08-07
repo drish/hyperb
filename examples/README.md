@@ -18,7 +18,7 @@ end
 
 #### create_image
 
-return a [HTTP::Response::Bod](http://www.rubydoc.info/gems/http/HTTP/Response/Body), which can be streamed.
+return a [HTTP::Response::Body](http://www.rubydoc.info/gems/http/HTTP/Response/Body), which can be streamed.
 
 ```ruby
 response = client.create_image from_image: 'busybox'
@@ -192,6 +192,17 @@ while body = logs.readpartial(1024)
 end
 ```
 
+#### kill_contianer
+
+```ruby
+client.kill_container id: 'django-server'
+```
+
+```ruby
+client.kill_container id: 'django-server', signal: 'sigterm'
+```
+
+
 ## Volumes API
 
 #### remove_volume
@@ -202,8 +213,20 @@ client.remove_volume id: 'volume-name'
 
 #### inspect_volume
 
+Return a Hash of downcase symbolized json response.
+
 ```ruby
-client.inspect_volume id: 'volume-id'
+volume_info = client.inspect_volume id: 'volume-id'
+puts volume_info
+```
+
+#### volumes
+
+returns an Array of Hyperb::Volume
+
+```ruby
+volumes = client.volumes
+puts volumes
 ```
 
 ## Fips API
