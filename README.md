@@ -1,6 +1,8 @@
 # Hyperb
 
-Hyperb is a [hyper.sh](https://hyper.sh) API client ruby gem.
+Hyperb is a [hyper.sh](https://hyper.sh) API ruby gem.
+
+This gem is under active development.
 
 ## Installation
 
@@ -25,7 +27,14 @@ Or install it yourself as:
 client = Hyperb::Client.new(access_key: 'ak', secret_key: 'sk')
 ```
 
-## API
+## API Covered
+
+#### Images
+
+Inspect Image :white_check_mark:
+Create Image (with auth object included)  :white_check_mark:
+List Images  :white_check_mark:
+Remove Image :white_check_mark:
 
 #### Version
 
