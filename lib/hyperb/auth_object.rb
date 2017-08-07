@@ -1,11 +1,9 @@
 require 'base64'
 
 module Hyperb
-
   # helper for managing auth objects
   # used to authenticate into third party docker registries
   class AuthObject
-
     attr_accessor :username, :password, :email, :serveraddress
 
     def initialize(options = {})
@@ -40,6 +38,5 @@ module Hyperb
     def build
       { x_registry_auth: encode }
     end
-
   end
 end

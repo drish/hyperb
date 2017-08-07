@@ -6,8 +6,8 @@ require 'uri'
 require 'base64'
 
 module Hyperb
+  # volumes module
   module Volumes
-
     include Hyperb::Utils
 
     # remove volume
@@ -20,7 +20,7 @@ module Hyperb
     # @option params [String] :all default is true
     # @option params [String] :filter only return image with the specified name
     def remove_volume(params = {})
-      raise ArgumentError.new('Invalid arguments.') if !check_arguments(params, 'id')
+      raise ArgumentError, 'Invalid arguments.' unless check_arguments(params, 'id')
       path = '/volumes/' + params[:id]
       Hyperb::Request.new(self, path, {}, 'delete').perform
     end

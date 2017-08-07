@@ -1,6 +1,6 @@
 module Hyperb
+  # image object
   class Image
-
     attr_accessor :id, :parent_id, :repo_tags, :repo_digests,
                   :created, :size, :labels, :virtual_size
 

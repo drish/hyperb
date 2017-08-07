@@ -1,7 +1,6 @@
 module Hyperb
-
+  # utils functions
   module Utils
-
     # checks if all args are keys into the hash
     #
     # @return [Boolean]
@@ -11,10 +10,7 @@ module Hyperb
     def check_arguments(params, *args)
       contains = true
       args.each do |arg|
-        if !params.has_key? arg.to_sym
-          contains = false
-          break
-        end
+        contains = false unless params.key? arg.to_sym
       end
       contains
     end
@@ -25,16 +21,19 @@ module Hyperb
     #
     # this fn is used to symbolize and downcase all hyper.sh api reponses
     def downcase_symbolize(obj)
-      return obj.reduce({}) do |memo, (k, v)|
-        memo.tap { |m| m[k.downcase.to_sym] = downcase_symbolize(v) }
-      end if obj.is_a? Hash
+      if obj.is_a? Hash
+        return obj.each_with_object({}) do |(k, v), memo|
+          memo.tap { |m| m[k.downcase.to_sym] = downcase_symbolize(v) }
+        end
+      end
 
-      return obj.reduce([]) do |memo, v|
-        memo << downcase_symbolize(v); memo
-      end if obj.is_a? Array
-
+      if obj.is_a? Array
+        return obj.each_with_object([]) do |v, memo|
+          memo << downcase_symbolize(v)
+          memo
+        end
+      end
       obj
     end
-
   end
 end

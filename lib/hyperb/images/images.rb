@@ -7,8 +7,8 @@ require 'uri'
 require 'base64'
 
 module Hyperb
+  # images api wrapper
   module Images
-
     include Hyperb::Utils
     # list images
     #
@@ -23,8 +23,8 @@ module Hyperb
     def images(params = {})
       path = '/images/json'
       query = {}
-      params.has_key?(:all) ? query[:all] = params[:all] : query[:all] = true
-      query[:filter] = params[:filter] if params.has_key?(:filter)
+      query[:all] = params[:all] || true
+      query[:filter] = params[:filter] if params.key?(:filter)
       response = JSON.parse(Hyperb::Request.new(self, path, query, 'get').perform)
       response.map { |image| Hyperb::Image.new(image) }
     end
@@ -51,12 +51,15 @@ module Hyperb
     #
     # TODO: @option params [Boolean] :stdout print stream to stdout
     def create_image(params = {})
-      raise ArgumentError.new('Invalid arguments.') if !check_arguments(params, 'from_image')
+      raise ArgumentError, 'Invalid arguments.' unless check_arguments(params, 'from_image')
       path = '/images/create'
       query = { fromImage: params[:from_image] }
-      query[:tag] = params[:tag] if params.has_key?(:tag)
+      query[:tag] = params[:tag] if params.key?(:tag)
       additional_headers = {}
-      additional_headers[:x_registry_auth] = Hyperb::AuthObject.new(params[:x_registry_auth]).encode if params.has_key?(:x_registry_auth)
+      if params.key?(:x_registry_auth)
+        auth = params[:x_registry_auth]
+        additional_headers[:x_registry_auth] = Hyperb::AuthObject.new(auth).encode
+      end
       res = Hyperb::Request.new(self, path, query, 'post', '', additional_headers).perform
       res
     end
@@ -78,7 +81,7 @@ module Hyperb
     def remove_image(params = {})
       path = '/images/' + params[:name]
       query = {}
-      query[:force] = true if params[:force]
+      query[:force] = true if params.key?(:force)
       res = JSON.parse(Hyperb::Request.new(self, path, query, 'delete').perform)
       downcase_symbolize(res)
     end
@@ -100,6 +103,5 @@ module Hyperb
       res = JSON.parse(Hyperb::Request.new(self, path, {}, 'get').perform)
       downcase_symbolize(res)
     end
-
   end
 end

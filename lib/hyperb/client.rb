@@ -1,7 +1,7 @@
 require 'hyperb/api'
 
 module Hyperb
-
+  # client class
   class Client
     include Hyperb::API
 
