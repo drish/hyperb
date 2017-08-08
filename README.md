@@ -87,6 +87,14 @@ while body = logs.readpartial(1024)
 end
 ```
 
+**allocate an floating ip**
+
+```ruby
+ips = client.fip_allocate count: 2
+puts ips
+#['8.8.8.8', '5.5.5.5']
+```
+
 For more usage examples, please see the full [documentation]().
 
 ## APIs (v1.23) Covered
@@ -117,15 +125,16 @@ For more usage examples, please see the full [documentation]().
 * remove containers
 * rename container
 
+### Network
+
+* floating ip allocate
+* floating ip release
+
 ### Compose
 
 wip
 
 ### Security Groups
-
-wip
-
-### Network
 
 wip
 
