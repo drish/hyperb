@@ -280,16 +280,16 @@ client.fip_release ip: '8.8.8.8'
 Returns an array of floating ip objects
 
 ```
-client.fip_ls
+client.fips_ls
 ```
 
-#### fips_detach
+#### fip_detach
 
 ```
 client.fip_detach container: 'nginx'
 ```
 
-#### fips_attach
+#### fip_attach
 
 ```
 client.fip_attach ip: '8.8.8.8', container: 'nginx'

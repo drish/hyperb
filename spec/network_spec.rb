@@ -1,6 +1,6 @@
 require 'helper'
 
-RSpec.describe Hyperb::Request do
+RSpec.describe Hyperb::Network do
 
   before do
     @client = Hyperb::Client.new(access_key: 'key', secret_key: '123')

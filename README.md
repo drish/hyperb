@@ -139,7 +139,7 @@ wip
 
 ### Snapshot
 
-wip
+* create snapshot
 
 ### Service
 

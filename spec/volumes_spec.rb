@@ -1,7 +1,7 @@
 require 'helper'
 require 'http'
 
-RSpec.describe Hyperb::Images do
+RSpec.describe Hyperb::Volumes do
 
   before do
     @client = Hyperb::Client.new(access_key: 'key', secret_key: '123')

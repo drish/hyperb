@@ -18,7 +18,7 @@ module Hyperb
     # @raise [Hyperb::Error::NotFound] raised when container is found.
     #
     # @param params [Hash] A customizable set of params.
-    # @option params [String] :container
+    # @option params [String] :container container name/id
     def fip_detach(params = {})
       raise ArgumentError, 'Invalid Arguments' unless check_arguments(params, 'container')
       path = '/fips/detach'
