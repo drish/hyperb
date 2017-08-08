@@ -371,4 +371,24 @@ RSpec.describe Hyperb::Containers do
     end
   end
 
+  describe '#rename_container' do
+
+    it 'should raise ArgumentError when id is not provided' do
+      expect { @client.rename_container id: 'id' }.to raise_error(ArgumentError)
+    end
+
+    it 'should raise ArgumentError when name is not provided' do
+      expect { @client.rename_container name: 'name' }.to raise_error(ArgumentError)
+    end
+
+    it 'correct request should be made' do
+      path = @containers_base_path + 'id/rename?name=name'
+
+      stub_request(:post, path)
+      .to_return(body: "")
+
+      @client.rename_container(id: 'id', name: 'name')
+      expect(a_request(:post, path)).to have_been_made
+    end
+  end
 end
