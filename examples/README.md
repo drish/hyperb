@@ -202,7 +202,6 @@ client.kill_container id: 'django-server'
 client.kill_container id: 'django-server', signal: 'sigterm'
 ```
 
-
 ## Volumes API
 
 #### remove_volume
@@ -231,19 +230,19 @@ puts volumes
 
 ## Fips API
 
-TODO
+wip
 
 ## Events API
 
-TODO
+wip
 
 ## Network API
 
-TODO
+wip
 
 ## Snapshot API
 
-TODO
+wip
 
 
 ## Misc.
