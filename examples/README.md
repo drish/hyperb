@@ -283,6 +283,18 @@ Returns an array of floating ip objects
 client.fip_ls
 ```
 
+#### fips_detach
+
+```
+client.fip_detach container: 'nginx'
+```
+
+#### fips_attach
+
+```
+client.fip_attach ip: '8.8.8.8', container: 'nginx'
+``
+
 ## Events API
 
 wip

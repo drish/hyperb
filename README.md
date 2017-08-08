@@ -131,6 +131,7 @@ For more usage examples, please see the full [documentation]().
 * floating ip release
 * floating ip list
 * floating ip attach
+* floating ip detach
 
 ### Compose
 
