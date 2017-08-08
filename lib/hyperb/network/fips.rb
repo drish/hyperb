@@ -10,12 +10,33 @@ module Hyperb
   module Network
     include Hyperb::Utils
 
+    # attach a floating ip to a container
+    #
+    # @see https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Network/fip_attach.html
+    #
+    # @raise [Hyperb::Error::Unauthorized] raised when credentials are not valid.
+    # @raise [Hyperb::Error::NotFound] raised when ip are not found.
+    #
+    # @param params [Hash] A customizable set of params.
+    # @option params [String] :ip
+    # @option params [String] :container
+    def fip_attach(params = {})
+      raise ArgumentError, 'Invalid Arguments' unless check_arguments(params, 'container', 'ip')
+      path = '/fips/attach'
+      query = {}
+      query[:ip] = params[:ip] if params.key?(:ip)
+      query[:container] = params[:container] if params.key?(:container)
+      Hyperb::Request.new(self, path, query, 'post').perform
+    end
+
     # list floating ips
     #
     # @see https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Network/fip_ls.html
     #
     # @raise [Hyperb::Error::Unauthorized] raised when credentials are not valid.
-    # @raise [Hyperb::Error::NotFound] raised ips are not found.
+    # @raise [Hyperb::Error::NotFound] raised when ips are not found.
+    #
+    # @returns [Array] array of downcased symbolized has
     #
     # @param params [Hash] A customizable set of params.
     # @option params [String] :filters
@@ -31,7 +52,7 @@ module Hyperb
     # @see https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Network/fip_release.html
     #
     # @raise [Hyperb::Error::Unauthorized] raised when credentials are not valid.
-    # @raise [Hyperb::Error::NotFound] raised ips are not found.
+    # @raise [Hyperb::Error::NotFound] raised when ips are not found.
     #
     # @param params [Hash] A customizable set of params.
     # @option params [String] :ip the number of free fips to allocate

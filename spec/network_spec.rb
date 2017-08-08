@@ -23,6 +23,30 @@ RSpec.describe Hyperb::Request do
     end
   end
 
+  describe '#fip_attach' do
+
+    it 'should raise ArgumentError when container is not provided' do
+      expect { @client.fip_attach }.to raise_error(ArgumentError)
+    end
+
+    it 'should raise ArgumentError when ip is not provided' do
+      expect { @client.fip_attach }.to raise_error(ArgumentError)
+    end
+
+    it 'should raise ArgumentError when container and ip are not provided' do
+      expect { @client.fip_attach }.to raise_error(ArgumentError)
+    end
+
+    it 'request to the correct path should be made' do
+      path = @base_path + '/attach?container=nginx&ip=8.8.8.8'
+      stub_request(:post, path)
+      .to_return(body: "")
+
+      @client.fip_attach ip: '8.8.8.8', container: 'nginx'
+      expect(a_request(:post, path)).to have_been_made
+    end
+  end
+
   describe '#fips_ls' do
 
     it 'request to the correct path should be made' do
