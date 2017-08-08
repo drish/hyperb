@@ -10,6 +10,23 @@ module Hyperb
   module Network
     include Hyperb::Utils
 
+    # detach a floating ip from a container
+    #
+    # @see https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Network/fip_detach.html
+    #
+    # @raise [Hyperb::Error::Unauthorized] raised when credentials are not valid.
+    # @raise [Hyperb::Error::NotFound] raised when container is found.
+    #
+    # @param params [Hash] A customizable set of params.
+    # @option params [String] :container
+    def fip_detach(params = {})
+      raise ArgumentError, 'Invalid Arguments' unless check_arguments(params, 'container')
+      path = '/fips/detach'
+      query = {}
+      query[:container] = params[:container] if params.key?(:container)
+      Hyperb::Request.new(self, path, query, 'post').perform
+    end
+
     # attach a floating ip to a container
     #
     # @see https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Network/fip_attach.html
