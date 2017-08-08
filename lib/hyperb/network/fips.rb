@@ -10,6 +10,22 @@ module Hyperb
   module Network
     include Hyperb::Utils
 
+    # list floating ips
+    #
+    # @see https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Network/fip_ls.html
+    #
+    # @raise [Hyperb::Error::Unauthorized] raised when credentials are not valid.
+    # @raise [Hyperb::Error::NotFound] raised ips are not found.
+    #
+    # @param params [Hash] A customizable set of params.
+    # @option params [String] :filters
+    def fips_ls(params = {})
+      path = '/fips'
+      query = {}
+      query[:filters] = params[:filters] if params.key?(:filters)
+      downcase_symbolize(JSON.parse(Hyperb::Request.new(self, path, query, 'get').perform))
+    end
+
     # release a floating ip
     #
     # @see https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Network/fip_release.html
