@@ -223,5 +223,24 @@ module Hyperb
       query[:signal] = params[:signal] if params.key?(:signal)
       Hyperb::Request.new(self, path, query, 'post').perform
     end
+
+    # rename a container
+    #
+    # @see https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Container/rename.html
+    #
+    # @raise [Hyperb::Error::Unauthorized] raised when credentials are not valid.
+    # @raise [Hyperb::Error::NotFound] raised when the container can't be found.
+    # @raise [Hyperb::Error::InternalServerError] raised when 5xx is returned.
+    #
+    # @param params [Hash] A customizable set of params.
+    # @option params [String] :id new name
+    # @option params [String] :name new name
+    def rename_container(params = {})
+      raise ArgumentError, 'Invalid arguments.' unless check_arguments(params, 'name', 'id')
+      path = '/containers/' + params[:id] + '/rename'
+      query = {}
+      query[:name] = params[:name] if params.key?(:name)
+      Hyperb::Request.new(self, path, query, 'post').perform
+    end
   end
 end
