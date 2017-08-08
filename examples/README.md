@@ -192,7 +192,7 @@ while body = logs.readpartial(1024)
 end
 ```
 
-#### kill_contianer
+#### kill_container
 
 ```ruby
 client.kill_container id: 'django-server'
@@ -200,6 +200,12 @@ client.kill_container id: 'django-server'
 
 ```ruby
 client.kill_container id: 'django-server', signal: 'sigterm'
+```
+
+#### rename_container
+
+```ruby
+client.rename_container id: 'django-server', name: 'its-actually-a-rails-server'
 ```
 
 ## Volumes API

@@ -115,6 +115,7 @@ For more usage examples, please see the full [documentation]().
 * get container logs
 * get container stats
 * remove containers
+* rename container
 
 ### Compose
 
