@@ -171,7 +171,7 @@ RSpec.describe Hyperb::Containers do
       expect { @client.create_container }.to raise_error(ArgumentError)
     end
 
-    it 'request to the correct path should be made with name=container_name' do
+    it 'request to the correct path should be made with name' do
       stub_request(:post, @create_container_path + '?name=container_name')
       .with(body: { image: 'image', labels: { sh_hyper_instancetype: 's1' } })
       .to_return(body: fixture('create_container.json'))
@@ -214,6 +214,54 @@ RSpec.describe Hyperb::Containers do
       @client.create_container(image: 'image', cmd: 'test cmd')
       expect(a_request(:post, path)
             .with(body: { image: 'image', cmd: 'test cmd', labels: { sh_hyper_instancetype: 's1' } })).to have_been_made
+    end
+
+    it 'correct request should be made with network mode' do
+      path = @create_container_path
+
+      stub_request(:post, path)
+      .with(body: { image: 'image', networkmode: 'bridge', labels: { sh_hyper_instancetype: 's1' } })
+      .to_return(body: fixture('create_container.json'))
+
+      @client.create_container(image: 'image', networkmode: 'bridge')
+      expect(a_request(:post, path)
+            .with(body: { image: 'image', networkmode: 'bridge', labels: { sh_hyper_instancetype: 's1' } })).to have_been_made
+    end
+
+    it 'correct request should be made with mounts' do
+      path = @create_container_path
+
+      stub_request(:post, path)
+      .with(body: { image: 'image', mounts: [], labels: { sh_hyper_instancetype: 's1' } })
+      .to_return(body: fixture('create_container.json'))
+
+      @client.create_container(image: 'image', mounts: [])
+      expect(a_request(:post, path)
+            .with(body: { image: 'image', mounts: [], labels: { sh_hyper_instancetype: 's1' } })).to have_been_made
+    end
+
+    it 'correct request should be made with exposed ports' do
+      path = @create_container_path
+
+      stub_request(:post, path)
+      .with(body: { image: 'image', exposedports: { '22/tcp': {} }, labels: { sh_hyper_instancetype: 's1' } })
+      .to_return(body: fixture('create_container.json'))
+
+      @client.create_container(image: 'image', exposedports: { '22/tcp': {} })
+      expect(a_request(:post, path)
+            .with(body: { image: 'image', exposedports: { '22/tcp': {} }, labels: { sh_hyper_instancetype: 's1' } })).to have_been_made
+    end
+
+    it 'correct request should be made with workingdir' do
+      path = @create_container_path
+
+      stub_request(:post, path)
+      .with(body: { image: 'image', workingdir: '/path/', labels: { sh_hyper_instancetype: 's1' } })
+      .to_return(body: fixture('create_container.json'))
+
+      @client.create_container(image: 'image', workingdir: '/path/')
+      expect(a_request(:post, path)
+            .with(body: { image: 'image', workingdir: '/path/', labels: { sh_hyper_instancetype: 's1' } })).to have_been_made
     end
   end
 
