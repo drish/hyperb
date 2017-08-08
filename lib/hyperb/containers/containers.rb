@@ -97,6 +97,11 @@ module Hyperb
     # @option params [String] :hostname container hostname
     # @option params [String] :entrypoint container entrypoint
     # @option params [String] :cmd container command
+    # @option params [String] :user add user to container
+    # @option params [String] :workingdir working directory for commands to run in.
+    # @option params [Array] :mounts array of strings with mount directories.
+    # @option params [String] :networkmode network mode, ie 'bridge'.
+    # @option params [Hash] :exposedports ports to expose.
     #
     # @option params [Hash] :labels hash containing key: value
     # @option params labels [String] :sh_hyper_instancetype container size: s1, s2, s3 ...
