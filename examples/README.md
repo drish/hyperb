@@ -82,19 +82,43 @@ puts info
 Return a hash containing downcased symbolized container info.
 
 ```ruby
-res = client.create_container name 'nginx-c', image: 'nginx', labels: { sh_hyper_instancetype: 'm1' }
+res = client.create_container name: 'nginx-c', image: 'nginx', labels: { sh_hyper_instancetype: 'm1' }
 ```
 
-```ruby
-res = client.create_container name 'nginx-c', image: 'nginx', hostname: 'nginx-hostname'
-```
+With hostname
 
 ```ruby
-res = client.create_container name 'nginx-c', image: 'nginx', cmd: "echo 'something'"
+res = client.create_container name: 'nginx-c', image: 'nginx', hostname: 'nginx-hostname'
 ```
 
+With custom cmd
+
 ```ruby
-res = client.create_container name 'nginx-c', image: 'nginx', hostname: 'hostny', entrypoint: './entrypoint.sh'
+res = client.create_container name: 'nginx-c', image: 'nginx', cmd: "echo 'something'"
+```
+
+With custom entrypoint
+
+```ruby
+res = client.create_container name: 'nginx-c', image: 'nginx', hostname: 'hostny', entrypoint: './entrypoint.sh'
+```
+
+With custom mounts
+
+```ruby
+res = client.create_container name: 'nginx-c', image: 'nginx', mounts: ['./path/to/mount']'
+```
+
+With custom network mode
+
+```ruby
+res = client.create_container name: 'nginx-c', image: 'nginx', networkmode: 'bridge'
+```
+
+Exposing ports
+
+```ruby
+res = client.create_container name: 'nginx-c', image: 'nginx', exposedports: { '22/tcp': {} }
 ```
 
 #### start_container
