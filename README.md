@@ -129,6 +129,8 @@ For more usage examples, please see the full [documentation]().
 
 * floating ip allocate
 * floating ip release
+* floating ip list
+* floating ip attach
 
 ### Compose
 
