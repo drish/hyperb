@@ -27,8 +27,8 @@ puts response
 
 ```ruby
 response = client.create_image(from_image: 'busybox')
-while !response.readpartial.nil?
-  puts response.readpartial
+while body = response.readpartial(1024)
+  puts body
 end
 ```
 
