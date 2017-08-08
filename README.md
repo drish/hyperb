@@ -134,6 +134,15 @@ For more usage examples, please see the full [documentation]().
 
 wip
 
+### Snapshot
+
+wip
+
+### Service
+
+wip
+
+
 ### Security Groups
 
 wip
@@ -144,12 +153,16 @@ wip
 
 ### Misc.
 
-* API Version
+* Version
 
-### Func. (beta)
+### Func (beta)
 
 wip
 
+
+### Cron (beta)
+
+wip
 
 ## Contributing
 
