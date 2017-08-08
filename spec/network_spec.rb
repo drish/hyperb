@@ -22,4 +22,20 @@ RSpec.describe Hyperb::Request do
       expect(a_request(:post, path)).to have_been_made
     end
   end
+
+  describe '#fip_release' do
+
+    it 'should raise ArgumentError when ip is not provided' do
+      expect { @client.fip_allocate }.to raise_error(ArgumentError)
+    end
+
+    it 'request to the correct path should be made' do
+      path = @base_path + 'release?ip=8.8.8.8'
+      stub_request(:post, path)
+      .to_return(body: "")
+
+      @client.fip_release ip: '8.8.8.8'
+      expect(a_request(:post, path)).to have_been_made
+    end
+  end
 end
