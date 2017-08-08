@@ -87,7 +87,7 @@ while body = logs.readpartial(1024)
 end
 ```
 
-For more usage examples, please see the full [documentation][].
+For more usage examples, please see the full [documentation]().
 
 ## APIs (v1.23) Covered
 
@@ -135,6 +135,11 @@ wip
 ### Misc.
 
 * API Version
+
+### Func. (beta)
+
+wip
+
 
 ## Contributing
 
