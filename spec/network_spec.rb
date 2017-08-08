@@ -47,6 +47,22 @@ RSpec.describe Hyperb::Request do
     end
   end
 
+  describe '#fip_detach' do
+
+    it 'should raise ArgumentError when container is not provided' do
+      expect { @client.fip_detach }.to raise_error(ArgumentError)
+    end
+
+    it 'request to the correct path should be made' do
+      path = @base_path + '/detach?container=nginx'
+      stub_request(:post, path)
+      .to_return(body: "")
+
+      @client.fip_detach container: 'nginx'
+      expect(a_request(:post, path)).to have_been_made
+    end
+  end
+
   describe '#fips_ls' do
 
     it 'request to the correct path should be made' do
