@@ -258,9 +258,22 @@ volumes = client.volumes
 puts volumes
 ```
 
-## Fips API
+## Network API
 
-wip
+#### fip_allocate
+
+Returns an array of allocated ips
+
+Allocate `count` ips.
+```
+client.fip_allocate count: 1
+```
+
+#### fip_release
+
+```
+client.fip_release ip: '8.8.8.8'
+```
 
 ## Events API
 
