@@ -1,6 +1,6 @@
 # API
 
-Other examples: [Authenticating in GCR](https://github.com/drish/hyperb/blob/master/examples/auth-gcr-registry.md), [Streaming Logs](https://github.com/drish/hyperb/blob/master/examples/streaming-logs.md), [Streaming-stats](https://github.com/drish/hyperb/blob/master/examples/streaming-stats.md)
+Other examples: [Authenticating in GCR](https://github.com/drish/hyperb/blob/master/examples/auth-gcr-registry.md), [Streaming Logs](https://github.com/drish/hyperb/blob/master/examples/streaming-logs.md), [Streaming stats](https://github.com/drish/hyperb/blob/master/examples/streaming-stats.md)
 
 ## Images API
 
@@ -305,8 +305,11 @@ wip
 
 ## Snapshot API
 
-wip
+Return hash containing snapshot information
 
+```ruby
+snapshot = client.create_snapshot name: 'snappy', volume: 'volumeId'
+```
 
 ## Misc.
 
