@@ -275,6 +275,14 @@ client.fip_allocate count: 1
 client.fip_release ip: '8.8.8.8'
 ```
 
+#### fips_ls
+
+Returns an array of floating ip objects
+
+```
+client.fip_ls
+```
+
 ## Events API
 
 wip
