@@ -23,7 +23,9 @@ module Hyperb
     # TODO: @option params filters [Boolean] :dangling
     def volumes(params = {})
       path = '/volumes'
-      response = JSON.parse(Hyperb::Request.new(self, path, {}, 'get').perform)
+      query = {}
+      query[:filters] = params[:filters] if params.key?(:filters)
+      response = JSON.parse(Hyperb::Request.new(self, path, query, 'get').perform)
 
       # hyper response atm comes inside a Volumes: [], unlike the images API
       # which is returned in a []
