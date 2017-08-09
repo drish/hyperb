@@ -10,7 +10,7 @@ module Hyperb
   module Compose
     include Hyperb::Utils
 
-    # Stop and remove a compose project
+    # stop and remove a compose project
     #
     # @see https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Compose/compose_down.html
     #
@@ -56,9 +56,9 @@ module Hyperb
       Hyperb::Request.new(self, path, query, 'post').perform
     end
 
-    # create a compose project
+    # create and run a compose project
     #
-    # @see https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Compose/compose_create.html
+    # @see https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Compose/compose_up.html
     #
     # @raise [Hyperb::Error::Unauthorized] raised when credentials are not valid.
     # @raise [Hyperb::Error::NotFound] raised ips are not found.
@@ -67,8 +67,9 @@ module Hyperb
     #
     # @param params [Hash] A customizable set of params.
     # @option params [String] :project project name
-    # @option params [String] :ip the number of free fips to allocate
-    # @option params [String] :ip the number of free fips to allocate
+    # @option params [Hash] :serviceconfigs a hash representing a docker compose file services block
+    # @option params [Hash] :networkconfigs
+    # @option params [Hash] :volumeconfigs
     def compose_up(params = {})
       raise ArgumentError, 'Invalid arguments.' unless check_arguments(params, 'project')
       path = '/compose/up'
@@ -95,8 +96,9 @@ module Hyperb
     #
     # @param params [Hash] A customizable set of params.
     # @option params [String] :project project name
-    # @option params [String] :ip the number of free fips to allocate
-    # @option params [String] :ip the number of free fips to allocate
+    # @option params [Hash] :serviceconfigs a hash representing a docker compose file services block
+    # @option params [Hash] :networkconfigs
+    # @option params [Hash] :volumeconfigs
     def compose_create(params = {})
       raise ArgumentError, 'Invalid arguments.' unless check_arguments(params, 'project')
       path = '/compose/create'
