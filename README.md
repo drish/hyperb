@@ -135,7 +135,10 @@ For more usage examples, please see the full [documentation]().
 
 ### Compose
 
-wip
+* compose create
+* compose up
+* compose down
+* compose rm
 
 ### Snapshot
 
@@ -144,7 +147,6 @@ wip
 ### Service
 
 wip
-
 
 ### Security Groups
 
