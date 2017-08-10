@@ -1,6 +1,6 @@
 <p align="center">
-  <h2 align="center">Hyperb</h2>
-  <p align="center">Hyperb is a [hyper.sh](https://hyper.sh) API ruby gem.</p>
+  <h1 align="center">Hyperb</h1>
+  <p align="center">Hyperb is a <a href="https://hyper.sh">[hyper.sh]</a> API ruby gem.</p>
   <p align="center">
     <a href="https://circleci.com/gh/drish/hyperb"><img src="https://circleci.com/gh/drish/hyperb.svg?style=svg"></a>
     <a href="https://github.com/drish/hyperb/blob/master/LICENSE.txt"><img src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
