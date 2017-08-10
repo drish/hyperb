@@ -31,7 +31,7 @@ client = Hyperb::Client.new(access_key: 'ak', secret_key: 'sk')
 
 ## Usage Examples
 
-After configuring a `client`, you can do the following things.
+After configuring a `client`, you can run the following examples.
 
 **get api version**
 

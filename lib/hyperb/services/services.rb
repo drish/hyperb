@@ -55,21 +55,5 @@ module Hyperb
       query[:keep] = params[:keep] if params.key?(:keep)
       Hyperb::Request.new(self, path, query, 'delete').perform
     end
-
-    # inspect a volume
-    #
-    # @see https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Volume/inspect.html
-    #
-    # @raise [Hyperb::Error::Unauthorized] raised when credentials are not valid.
-    #
-    # @return [Hash] of downcase symbolized json response.
-    #
-    # @param params [Hash] A customizable set of params.
-    # @option params [String] :id volume id or name
-    def inspect_volume(params = {})
-      raise ArgumentError, 'Invalid arguments.' unless check_arguments(params, 'id')
-      path = '/volumes/' + params[:id]
-      downcase_symbolize(JSON.parse(Hyperb::Request.new(self, path, {}, 'get').perform))
-    end
   end
 end
