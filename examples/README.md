@@ -265,13 +265,14 @@ puts volumes
 Returns an array of allocated ips
 
 Allocate `count` ips.
-```
+
+```ruby
 client.fip_allocate count: 1
 ```
 
 #### fip_release
 
-```
+```ruby
 client.fip_release ip: '8.8.8.8'
 ```
 
@@ -279,21 +280,21 @@ client.fip_release ip: '8.8.8.8'
 
 Returns an array of floating ip objects
 
-```
+```ruby
 client.fips_ls
 ```
 
 #### fip_detach
 
-```
+```ruby
 client.fip_detach container: 'nginx'
 ```
 
 #### fip_attach
 
-```
+```ruby
 client.fip_attach ip: '8.8.8.8', container: 'nginx'
-``
+```
 
 ## Events API
 
