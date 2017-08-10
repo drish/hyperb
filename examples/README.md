@@ -304,9 +304,42 @@ wip
 
 See [compose API examples](https://github.com/drish/hyperb/blob/master/examples/compose.md)
 
-## Network API
+## Services API
 
-wip
+#### create_service
+
+Returns a Hash of downcased symbolized json response
+
+```ruby
+options = {
+	name: 'srvc1', # required
+	image: 'nginx', # required
+	replicas: 1, # required
+	service_port: 80, # required
+	container_port: 80,
+	labels: { # required
+    'app': 'web1'
+  },
+	cmd: 'command',
+	entrypoint: 'entry.sh',
+	env: ['env=123', 'env2=456'],
+	protocol: 'https',
+	algorithm: 'roundrobin'
+}
+
+srvc = client.create_service(options)
+puts srvc
+````
+
+#### remove_service
+
+```ruby
+client.remove_service name: 'srvc1'
+````
+
+```ruby
+client.remove_service name: 'srvc1', keep: true
+````
 
 ## Snapshot API
 
