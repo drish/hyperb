@@ -299,6 +299,10 @@ client.fip_attach ip: '8.8.8.8', container: 'nginx'
 
 wip
 
+## Compose API
+
+See [compose API examples](https://github.com/drish/hyperb/blob/master/examples/compose.md)
+
 ## Network API
 
 wip

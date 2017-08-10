@@ -146,7 +146,8 @@ For more usage examples, please see the full [documentation]().
 
 ### Service
 
-wip
+* create service
+* remove service
 
 ### Security Groups
 
