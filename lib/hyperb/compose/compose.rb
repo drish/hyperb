@@ -78,16 +78,16 @@ module Hyperb
       query[:project] = params[:project] if params.key?(:project)
 
       body[:serviceconfigs] = { 'M': {} } # inherited from libcompose
-
-      params[:networkconfigs] if params.key?(:networkconfigs)
       body[:serviceconfigs][:M] = params[:serviceconfigs] if params.key?(:serviceconfigs)
-      body[:volumeconfigs] = params[:volumeconfigs] if params.key?(:volumeconfigs)
+      params.delete(:serviceconfigs)
+      body.merge!(params)
       Hyperb::Request.new(self, path, query, 'post', body).perform
     end
 
     # create a compose project
     #
-    # @see https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Compose/compose_create.html
+    # @see https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/
+    # Compose/compose_create.html
     #
     # @raise [Hyperb::Error::Unauthorized] raised when credentials are not valid.
     # @raise [Hyperb::Error::NotFound] raised ips are not found.
@@ -107,10 +107,9 @@ module Hyperb
       query[:project] = params[:project] if params.key?(:project)
 
       body[:serviceconfigs] = { 'M': {} } # inherited from libcompose
-
-      body[:networkconfigs] = params[:networkconfigs] if params.key?(:networkconfigs)
-      body[:serviceconfigs][:M] = params[:serviceconfigs] if params.key?(:serviceconfigs)
-      body[:volumeconfigs] = params[:volumeconfigs] if params.key?(:volumeconfigs)
+      body[:serviceconfigs][:M] = params[:serviceconfigs]
+      params.delete(:serviceconfigs)
+      body.merge!(params)
       Hyperb::Request.new(self, path, query, 'post', body).perform
     end
   end
