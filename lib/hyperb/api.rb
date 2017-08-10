@@ -1,6 +1,7 @@
 require 'hyperb/images/images'
 require 'hyperb/containers/containers'
 require 'hyperb/snapshots/snapshots'
+require 'hyperb/services/services'
 require 'hyperb/volumes/volumes'
 require 'hyperb/network/fips'
 require 'hyperb/compose/compose'
@@ -15,6 +16,7 @@ module Hyperb
     include Hyperb::HyperVersion
     include Hyperb::Network
     include Hyperb::Snapshots
+    include Hyperb::Services
     include Hyperb::Compose
   end
 end
