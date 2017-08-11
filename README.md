@@ -4,6 +4,7 @@
   <p align="center">
     <a href="https://circleci.com/gh/drish/hyperb"><img src="https://circleci.com/gh/drish/hyperb.svg?style=svg"></a>
     <a href="https://github.com/drish/hyperb/blob/master/LICENSE.txt"><img src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
+    <a href="https://coveralls.io/github/drish/hyperb?branch=master"><img src="https://coveralls.io/repos/github/drish/hyperb/badge.svg?branch=master"></a>
   </p>
 </p>
 
