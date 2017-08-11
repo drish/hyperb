@@ -1,4 +1,11 @@
-machine:
-  services:
-    - docker
+dependencies:
+  override:
+    - 'rvm-exec 2.1.0 bundle install'
+    - 'rvm-exec 2.2.0 bundle install'
+    - 'rvm-exec 2.3.0 bundle install'
 
+test:
+  override:
+    - 'rvm-exec 2.1.0 bundle exec rake'
+    - 'rvm-exec 2.2.0 bundle exec rake'
+    - 'rvm-exec 2.3.0 bundle exec rake'
