@@ -9,9 +9,6 @@ AllCops:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
-Layout/EndOfLine:
-  EnforcedStyle: lf
-
 Layout/IndentHeredoc:
   EnforcedStyle: powerpack
 
