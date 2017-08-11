@@ -6,6 +6,7 @@
     <a href="https://github.com/drish/hyperb/blob/master/LICENSE.txt"><img src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
     <a href="https://coveralls.io/github/drish/hyperb?branch=master"><img src="https://coveralls.io/repos/github/drish/hyperb/badge.svg?branch=master"></a>
 		<a href="https://codeclimate.com/github/drish/hyperb"><img src="https://codeclimate.com/github/drish/hyperb/badges/gpa.svg" /></a>
+		<a href="https://badge.fury.io/rb/hyperb"><img src="https://badge.fury.io/rb/hyperb.svg"</a>
   </p>
 </p>
 
