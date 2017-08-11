@@ -10,7 +10,7 @@ pry:
 	docker run --rm -it -v $(PWD):/usr/src -e COVERALLS_REPO_TOKEN hyperb bundle exec pry
 
 rake:
-	docker run --rm -it -v $(PWD):/usr/src -e COVERALLS_REPO_TOKEN hyperb bundle exec rake
+	docker run --rm -it -v $(PWD):/usr/src -e COVERALLS_REPO_TOKEN COVERALLS_REPO_TOKEN=$COVERALLS_REPO_TOKEN hyperb bundle exec rake
 
 rubocop:
 	docker run --rm -it -v $(PWD):/usr/src hyperb bundle exec rake rubocop
