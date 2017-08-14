@@ -15,6 +15,7 @@ Gem::Specification.new do |spec|
   spec.license       = 'MIT'
 
   spec.require_paths = ['lib']
+  spec.files         = `git ls-files`.split("\n")
 
   spec.add_dependency 'http', '~> 2.0'
 
