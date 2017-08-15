@@ -57,7 +57,7 @@ module Hyperb
 
     # remove the container id
     #
-    # @see https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Container/delete.html
+    # @see https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Container/remove.html
     #
     # @raise [Hyperb::Error::Unauthorized] raised when credentials are not valid.
     # @raise [Hyperb::Error::NotFound] raised when container can't be found.
