@@ -88,6 +88,26 @@ RSpec.describe Hyperb::Network do
     end
   end
 
+  describe '#fips_name' do
+
+    it 'should raise ArgumentError when ip is not provided' do
+      expect { @client.fip_name(name: 'test') }.to raise_error(ArgumentError)
+    end
+
+    it 'should raise ArgumentError when name is not provided' do
+      expect { @client.fip_name(ip: '8.8.8.8') }.to raise_error(ArgumentError)
+    end
+
+    it 'request to the correct path should be made' do
+      path = @base_path + '/name?ip=8.8.8.8&name=haproxy'
+      stub_request(:post, path)
+      .to_return(body: "")
+
+      @client.fip_name(ip: '8.8.8.8', name: 'haproxy')
+      expect(a_request(:post, path)).to have_been_made
+    end
+  end
+
   describe '#fip_release' do
 
     it 'should raise ArgumentError when ip is not provided' do

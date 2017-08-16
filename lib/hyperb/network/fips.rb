@@ -98,5 +98,27 @@ module Hyperb
       fips = JSON.parse(Hyperb::Request.new(self, path, query, 'post').perform)
       fips
     end
+
+    # set a name for floating ip
+    #
+    # @see https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Network/fip_name.html
+    #
+    # @raise [Hyperb::Error::Unauthorized] raised when credentials are not valid.
+    # @raise [Hyperb::Error::NotFound] raised when fip is not found
+    # @raise [Hyperb::Error::Conflict] raised when name already exists
+    # @raise [Hyperb::Error::InternalServerError] raised when server returns 5xx
+    #
+    #
+    # @param params [Hash] A customizable set of params.
+    # @option params [String] :ip fip
+    # @option params [String] :name the name
+    def fip_name(params = {})
+      raise ArgumentError, 'Invalid Arguments' unless check_arguments(params, 'ip', 'name')
+      path = '/fips/name'
+      query = {}
+      query[:ip] = params[:ip] if params.key?(:ip)
+      query[:name] = params[:name] if params.key?(:name)
+      Hyperb::Request.new(self, path, query, 'post').perform
+    end
   end
 end
