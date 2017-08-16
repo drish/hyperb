@@ -88,7 +88,7 @@ RSpec.describe Hyperb::Network do
     end
   end
 
-  describe '#fips_name' do
+  describe '#fip_name' do
 
     it 'should raise ArgumentError when ip is not provided' do
       expect { @client.fip_name(name: 'test') }.to raise_error(ArgumentError)
