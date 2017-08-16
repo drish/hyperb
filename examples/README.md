@@ -284,6 +284,12 @@ Returns an array of floating ip objects
 client.fips_ls
 ```
 
+#### fip_name
+
+```ruby
+client.fip_name ip: '8.8.8.8', name: 'proxy'
+```
+
 #### fip_detach
 
 ```ruby

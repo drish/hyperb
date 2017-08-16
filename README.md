@@ -142,6 +142,7 @@ For more usage examples, please see the full [documentation]().
 * floating ip list
 * floating ip attach
 * floating ip detach
+* floating ip name
 
 ### Compose
 
