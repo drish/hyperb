@@ -8,6 +8,33 @@ RSpec.describe Hyperb::Services do
     @base_path = Hyperb::Request::BASE_URL + Hyperb::Request::VERSION + '/services'
   end
 
+  describe '#inspect_service' do
+
+    it 'should raise ArgumentError when name is missing' do
+      expect { @client.inspect_service }.to raise_error(ArgumentError)
+    end
+
+    it 'request to the correct path should be made' do
+      path = @base_path + '/service1'
+
+      stub_request(:get, path)
+      .to_return(body: fixture('./inspect_service.json'))
+
+      @client.inspect_service(name: 'service1')
+      expect(a_request(:get, path)).to have_been_made
+    end
+
+    it 'return correct attrs' do
+      path = @base_path + '/service1'
+
+      stub_request(:get, path)
+      .to_return(body: fixture('./inspect_service.json'))
+
+      s = @client.inspect_service(name: 'service1')
+      expect(s.is_a?(Hash)).to be true
+    end
+  end
+
   describe '#services' do
 
     it 'request to the correct path should be made' do
