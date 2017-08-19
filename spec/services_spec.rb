@@ -8,6 +8,29 @@ RSpec.describe Hyperb::Services do
     @base_path = Hyperb::Request::BASE_URL + Hyperb::Request::VERSION + '/services'
   end
 
+  describe '#services' do
+
+    it 'request to the correct path should be made' do
+      path = @base_path
+
+      stub_request(:get, path)
+      .to_return(body: fixture('./services.json'))
+
+      @client.services
+      expect(a_request(:get, path)).to have_been_made
+    end
+
+    it 'return correct attrs' do
+      path = @base_path
+
+      stub_request(:get, path)
+      .to_return(body: fixture('./services.json'))
+
+      s = @client.services
+      expect(s.is_a?(Array)).to be true
+    end
+  end
+
   describe '#remove_service' do
 
     it 'should raise ArgumentError when name is not provided' do
