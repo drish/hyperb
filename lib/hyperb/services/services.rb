@@ -18,18 +18,18 @@ module Hyperb
     # @return [Hash] Hash containing service information.
     #
     # @param params [Hash] A customizable set of params.
-    # @param params :image [String] service name
-    # @param params :name [String] image name
-    # @param params :replicas [Fixnum] numer of replicas
-    # @param params :serviceport [Fixnum] service port
-    # @param params :containerport [Fixnum] container port
-    # @param params :labels [Hash] hash containing labels
-    # @param params :entrypoint [String] entrypoint
-    # @param params :cmd [String] command
-    # @param params :env [Array] array of envs ["env=value", ["env2=value"]]
-    # @param params :algorithm [String] algorithm of the service, 'roundrobin', 'leastconn'
-    # @param params :protocol [String] prot
-    # @param params :workingdir [String] working directory
+    # @param params [String] :image  service name
+    # @param params [String] :name image name
+    # @param params [Fixnum] :replicas numer of replicas
+    # @param params [Fixnum] :serviceport service port
+    # @param params [Fixnum] :containerport container port
+    # @param params [Hash] :labels hash containing labels
+    # @param params [String] :entrypoint entrypoint
+    # @param params [String] :cmd command
+    # @param params [Array] :env array of envs ["env=value", ["env2=value"]]
+    # @param params [String] :algorithm algorithm of the service, 'roundrobin', 'leastconn'
+    # @param params [String] :protocol prot
+    # @param params [String] :workingdir working directory
     def create_service(params = {})
       valid = check_arguments(params, 'name', 'image', 'replicas', 'serviceport', 'labels')
       raise ArgumentError, 'Invalid arguments.' unless valid
@@ -54,6 +54,22 @@ module Hyperb
       query = {}
       query[:keep] = params[:keep] if params.key?(:keep)
       Hyperb::Request.new(self, path, query, 'delete').perform
+    end
+
+    # inspect a service
+    #
+    # @see https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Service/inspect.html
+    #
+    # @raise [Hyperb::Error::Unauthorized] raised when credentials are not valid.
+    # @raise [Hyperb::Error::InternalServerError] raised hyper returns 5xx.
+    #
+    # @param params [Hash] A customizable set of params.
+    # @option params [String] :name service name.
+    def inspect_service(params = {})
+      valid = check_arguments(params, 'name')
+      raise ArgumentError, 'Invalid arguments.' unless valid
+      path = '/services/' + params[:name]
+      downcase_symbolize(JSON.parse(Hyperb::Request.new(self, path, {}, 'get').perform))
     end
 
     # list service
