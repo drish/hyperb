@@ -26,10 +26,13 @@ module Hyperb
     # @param params [Hash] :labels hash containing labels
     # @param params [String] :entrypoint entrypoint
     # @param params [String] :cmd command
+    # @param params [Boolean] :stdin keep STDIN open even if not attached.
     # @param params [Array] :env array of envs ["env=value", ["env2=value"]]
     # @param params [String] :algorithm algorithm of the service, 'roundrobin', 'leastconn'
     # @param params [String] :protocol prot
     # @param params [String] :workingdir working directory
+    # @param params [Boolean] :sessionaffinity whether the service uses sticky sessions.
+    # @param params [String] :securitygroups security group for the container.
     def create_service(params = {})
       valid = check_arguments(params, 'name', 'image', 'replicas', 'serviceport', 'labels')
       raise ArgumentError, 'Invalid arguments.' unless valid
