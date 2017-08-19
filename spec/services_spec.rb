@@ -8,7 +8,7 @@ RSpec.describe Hyperb::Services do
     @base_path = Hyperb::Request::BASE_URL + Hyperb::Request::VERSION + '/services'
   end
 
-  describe '#remove_container' do
+  describe '#remove_service' do
 
     it 'should raise ArgumentError when name is not provided' do
       expect { @client.remove_service }.to raise_error(ArgumentError)
@@ -61,11 +61,11 @@ RSpec.describe Hyperb::Services do
     it 'request to the correct path should be made with name' do
       path = @base_path + '/create'
       body = {
-        service_port: 80,
+        serviceport: 80,
         name: 'name1',
         image: 'nginx',
         replicas: 2,
-        container_port: 80,
+        containerport: 80,
         labels: {}
       }
       stub_request(:post, path)
@@ -79,12 +79,12 @@ RSpec.describe Hyperb::Services do
     it 'correct request should be made with entrypoint' do
       path = @base_path + '/create'
       body = {
-        service_port: 80,
+        serviceport: 80,
         name: 'name1',
         image: 'nginx',
         replicas: 2,
         entrypoint: 'entry.sh',
-        container_port: 80,
+        containerport: 80,
         labels: {}
       }
       stub_request(:post, path)
@@ -98,12 +98,12 @@ RSpec.describe Hyperb::Services do
     it 'correct request should be made with cmd' do
       path = @base_path + '/create'
       body = {
-        service_port: 80,
+        serviceport: 80,
         name: 'name1',
         image: 'nginx',
         replicas: 2,
         cmd: 'echo 1',
-        container_port: 80,
+        containerport: 80,
         labels: {}
       }
       stub_request(:post, path)
@@ -117,12 +117,12 @@ RSpec.describe Hyperb::Services do
     it 'correct request should be made with env' do
       path = @base_path + '/create'
       body = {
-        service_port: 80,
+        serviceport: 80,
         name: 'name1',
         image: 'nginx',
         replicas: 2,
         env: ['ENV=123'],
-        container_port: 80,
+        containerport: 80,
         labels: {}
       }
       stub_request(:post, path)
@@ -136,12 +136,12 @@ RSpec.describe Hyperb::Services do
     it 'correct request should be made with protocol' do
       path = @base_path + '/create'
       body = {
-        service_port: 80,
+        serviceport: 80,
         name: 'name1',
         image: 'nginx',
         replicas: 2,
         protocol: 'https',
-        container_port: 80,
+        containerport: 80,
         labels: {}
       }
       stub_request(:post, path)
@@ -155,11 +155,11 @@ RSpec.describe Hyperb::Services do
     it 'correct request should be made with algorithm' do
       path = @base_path + '/create'
       body = {
-        service_port: 80,
+        serviceport: 80,
         name: 'name1',
         image: 'nginx',
         replicas: 2,
-        container_port: 80,
+        containerport: 80,
         algorithm: 'roundrobin',
         labels: {}
       }
@@ -174,12 +174,12 @@ RSpec.describe Hyperb::Services do
     it 'correct request should be made with workingdir' do
       path = @base_path + '/create'
       body = {
-        service_port: 80,
+        serviceport: 80,
         name: 'name1',
         workingdir: '/path',
         image: 'nginx',
         replicas: 2,
-        container_port: 80,
+        containerport: 80,
         labels: {}
       }
       stub_request(:post, path)

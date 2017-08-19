@@ -18,20 +18,20 @@ module Hyperb
     # @return [Hash] Hash containing service information.
     #
     # @param params [Hash] A customizable set of params.
-    # @param params image [String] service name
-    # @param params name [String] image name
-    # @param params replicas [Fixnum] numer of replicas
-    # @param params service_port [Fixnum] service port
-    # @param params container_port [Fixnum] container port
-    # @param params labels [Hash] hash containing labels
-    # @param params entrypoint [String] entrypoint
-    # @param params cmd [String] command
-    # @param params env [Array] array of envs ["env=value", ["env2=value"]]
-    # @param params algorithm [String] algorithm of the service, 'roundrobin', 'leastconn'
-    # @param params protocol [String] prot
-    # @param params workingdir [String] working directory
+    # @param params :image [String] service name
+    # @param params :name [String] image name
+    # @param params :replicas [Fixnum] numer of replicas
+    # @param params :serviceport [Fixnum] service port
+    # @param params :containerport [Fixnum] container port
+    # @param params :labels [Hash] hash containing labels
+    # @param params :entrypoint [String] entrypoint
+    # @param params :cmd [String] command
+    # @param params :env [Array] array of envs ["env=value", ["env2=value"]]
+    # @param params :algorithm [String] algorithm of the service, 'roundrobin', 'leastconn'
+    # @param params :protocol [String] prot
+    # @param params :workingdir [String] working directory
     def create_service(params = {})
-      valid = check_arguments(params, 'name', 'image', 'replicas', 'service_port', 'labels')
+      valid = check_arguments(params, 'name', 'image', 'replicas', 'serviceport', 'labels')
       raise ArgumentError, 'Invalid arguments.' unless valid
       path = '/services/create'
       body = {}
