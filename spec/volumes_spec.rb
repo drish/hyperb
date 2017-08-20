@@ -18,10 +18,34 @@ RSpec.describe Hyperb::Volumes do
       path = @base_path + '/id'
 
       stub_request(:delete, path)
-      .to_return(body: fixture('remove_container.json'))
+      .to_return(body: "")
 
       @client.remove_volume id: 'id'
       expect(a_request(:delete, path)).to have_been_made
+    end
+  end
+
+  describe '#create_volume' do
+
+    it 'request to the correct path should be made' do
+      path = @base_path + '/create'
+
+      stub_request(:post, path)
+      .to_return(body: fixture('create_volume.json'))
+
+      @client.create_volume
+      expect(a_request(:post, path)).to have_been_made
+    end
+
+    it 'correct attrs' do
+      path = @base_path + '/create'
+
+      stub_request(:post, path)
+      .to_return(body: fixture('create_volume.json'))
+
+      vol = @client.create_volume
+      expect(vol[:name]).to eql 'tardis'
+      expect(vol[:driver]).to eql 'hyper'
     end
   end
 
@@ -35,7 +59,7 @@ RSpec.describe Hyperb::Volumes do
       path = @base_path + '/id'
 
       stub_request(:get, path)
-      .to_return(body: fixture('inspect_container.json'))
+      .to_return(body: fixture('inspect_volume.json'))
 
       @client.inspect_volume id: 'id'
       expect(a_request(:get, path)).to have_been_made
@@ -53,7 +77,7 @@ RSpec.describe Hyperb::Volumes do
     end
   end
 
-  describe '#inspect_volume' do
+  describe '#volumes' do
 
     it 'request to the correct path should be made' do
       stub_request(:get, @base_path)
@@ -63,7 +87,7 @@ RSpec.describe Hyperb::Volumes do
       expect(a_request(:get, @base_path)).to have_been_made
     end
 
-    it 'return array of containers' do
+    it 'return array of volumes' do
       stub_request(:get, @base_path)
       .to_return(body: fixture('volumes.json'))
 
@@ -84,5 +108,4 @@ RSpec.describe Hyperb::Volumes do
       end
     end
   end
-
 end

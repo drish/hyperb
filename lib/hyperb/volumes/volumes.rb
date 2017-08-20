@@ -10,6 +10,34 @@ module Hyperb
   module Volumes
     include Hyperb::Utils
 
+    # create volume
+    #
+    # @see https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Volume/create.html
+    #
+    # @raise [Hyperb::Error::Unauthorized] raised when credentials are not valid.
+    # @raise [Hyperb::Error::InternalServerError] raised hyper server returns 5xx.
+    #
+    # @return [Hash] downcased symbolized volume information.
+    #
+    # @param params [Hash] A customizable set of params.
+    # @option params [String] :name volume's name
+    # @option params [Fixnum] :size volume size unit of GB, from 10-1000 (1TB).
+    # @option params [String] :snapshot snapshotId
+    def create_volume(params = {})
+      path = '/volumes/create'
+      body = {}
+      body[:driver] = 'hyper'
+      body[:name] = params[:name] if params.key?(:name)
+
+      # setup driver opts
+      body[:driveropts] = {}
+      body[:driveropts][:snapshot] = params[:snapshot]
+      body[:driveropts][:size] = params[:size].to_s
+
+      response = JSON.parse(Hyperb::Request.new(self, path, {}, 'post', body).perform)
+      downcase_symbolize(response)
+    end
+
     # list volumes
     #
     # @see https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Volume/list.html
