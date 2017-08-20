@@ -122,6 +122,7 @@ For more usage examples, please see the full [documentation]().
 
 * list volumes
 * inspect volume
+* create volume
 * remove volume
 
 ### Containers

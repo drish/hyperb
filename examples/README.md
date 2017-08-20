@@ -234,6 +234,28 @@ client.rename_container id: 'django-server', name: 'its-actually-a-rails-server'
 
 ## Volumes API
 
+#### create_volume
+
+Returns a Hash containing volume information
+
+```ruby
+vol = client.create_volume name: 'vol'
+# creates default (10gb) volume
+{:name=>"vol", :driver=>"hyper", :mountpoint=>"", :labels=>{:size=>"10", :snapshot=>""}, :scope=>"", :createdat=>"0001-01-01T00:00:00Z"}
+```
+
+```ruby
+vol = client.create_volume name: 'vol1', size: 35
+# creates a 35GB size volume
+{:name=>"vol1", :driver=>"hyper", :mountpoint=>"", :labels=>{:size=>"35", :snapshot=>""}, :scope=>"", :createdat=>"0001-01-01T00:00:00Z"}
+```
+
+```ruby
+vol = client.create_volume name: 'vol1', snapshot: 'dddeeefff'
+# creates a volume based on a snapshot
+{:name=>"vol1", :driver=>"hyper", :mountpoint=>"", :labels=>{:size=>"10", :snapshot=>"dddeeefff"}, :scope=>"", :createdat=>"0001-01-01T00:00:00Z"}
+```
+
 #### remove_volume
 
 ```ruby
