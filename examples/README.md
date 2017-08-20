@@ -355,15 +355,13 @@ Returns an Array of downcased symbols
 client.services
 ```
 
-#### inspec_service
+#### inspect_service
 
 Returns an Hash containing service fields
 
 ```ruby
-client.services
+client.inspect_service(name: 'srvc1')
 ```
-
-
 
 ## Snapshot API
 
