@@ -159,6 +159,8 @@ For more usage examples, please see the full [documentation]().
 
 * create service
 * remove service
+* inspect service
+* list services
 
 ### Misc.
 

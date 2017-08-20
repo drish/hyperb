@@ -347,6 +347,24 @@ client.remove_service name: 'srvc1'
 client.remove_service name: 'srvc1', keep: true
 ````
 
+#### services
+
+Returns an Array of downcased symbols
+
+```ruby
+client.services
+```
+
+#### inspec_service
+
+Returns an Hash containing service fields
+
+```ruby
+client.services
+```
+
+
+
 ## Snapshot API
 
 Return hash containing snapshot information
