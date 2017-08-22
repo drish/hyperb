@@ -51,6 +51,7 @@ module Hyperb
     #
     # @param params [Hash] A customizable set of params.
     # @option params [String] :keep if true, keep containers running while removing the service.
+    # @option params [String] :name service name.
     def remove_service(params = {})
       raise ArgumentError, 'Invalid arguments.' unless check_arguments(params, 'name')
       path = '/services/' + params[:name]
