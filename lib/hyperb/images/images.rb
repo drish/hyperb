@@ -80,6 +80,7 @@ module Hyperb
     # @option params [String] :name image name to be removed
     # @option params [Boolean] :force force image to be removed
     def remove_image(params = {})
+      raise ArgumentError, 'Invalid arguments.' unless check_arguments(params, 'name')
       path = '/images/' + params[:name]
       query = {}
       query[:force] = true if params.key?(:force)
