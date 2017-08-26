@@ -42,12 +42,12 @@ module Hyperb
     # @param [String] word
     # @returns [String]
     def underscore(word)
-      word.
-      gsub(/([A-Z]+)([A-Z]+)([A-Z][a-z])/,'\12_\3').
-      gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
-      gsub(/([a-z\d])([A-Z])/,'\1_\2').
-      tr('-', '_').
-      downcase.to_sym
+      word
+        .gsub(/([A-Z]+)([A-Z]+)([A-Z][a-z])/, '\12_\3')
+        .gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2')
+        .gsub(/([a-z\d])([A-Z])/, '\1_\2')
+        .tr('-', '_')
+        .downcase.to_sym
     end
   end
 end
