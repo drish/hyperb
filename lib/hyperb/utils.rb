@@ -15,15 +15,15 @@ module Hyperb
       contains
     end
 
-    # hyper.sh responses are capital cased json
+    # hyper.sh responses are capital camel cased json, ie:
     #
-    # {"Field": "value"}
+    # {"HostConfigs": "value"}
     #
-    # this fn is used to symbolize and downcase all hyper.sh api reponses
+    # this fn is used to format all hyper.sh api reponses
     def downcase_symbolize(obj)
       if obj.is_a? Hash
         return obj.each_with_object({}) do |(k, v), memo|
-          memo.tap { |m| m[k.downcase.to_sym] = downcase_symbolize(v) }
+          memo.tap { |m| m[underscore(k)] = downcase_symbolize(v) }
         end
       end
 
@@ -34,6 +34,20 @@ module Hyperb
         end
       end
       obj
+    end
+
+    # based on http://api.rubyonrails.org/classes/ActiveSupport/Inflector.html#method-i-underscore
+    #
+    # underscores and symbolize a string
+    # @param [String] word
+    # @returns [String]
+    def underscore(word)
+      word.
+      gsub(/([A-Z]+)([A-Z]+)([A-Z][a-z])/,'\12_\3').
+      gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
+      gsub(/([a-z\d])([A-Z])/,'\1_\2').
+      tr('-', '_').
+      downcase.to_sym
     end
   end
 end

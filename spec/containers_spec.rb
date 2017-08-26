@@ -116,8 +116,13 @@ RSpec.describe Hyperb::Containers do
       expect(res.has_key?(:args)).to be true
       expect(res.has_key?(:config)).to be true
       expect(res.has_key?(:created)).to be true
+      expect(res.has_key?(:host_config)).to be true
+      expect(res[:host_config].has_key?(:publish_all_ports)).to be true
+      expect(res[:host_config].has_key?(:blkio_weight_device)).to be true
+      expect(res[:host_config].has_key?(:blkio_weight)).to be true
+      expect(res[:host_config].has_key?(:memory_reservation)).to be true
+      expect(res[:host_config].has_key?(:oom_kill_disable)).to be true
     end
-
   end
 
   describe '#remove_container' do
