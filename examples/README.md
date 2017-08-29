@@ -71,7 +71,7 @@ response = client.remove_image(name: 'busybox', force: true)
 returns a Hash containing information about the inspected image
 
 ```ruby
-info = client.inspect_image(id: 'busybox')
+info = client.inspect_image(name: 'busybox')
 puts info
 ```
 
