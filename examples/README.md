@@ -75,9 +75,9 @@ info = client.inspect_image(name: 'busybox')
 puts info
 ```
 
-## Containers API
+## [Containers API](https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Container)
 
-#### create_container
+#### [create_container](https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Container/create.html)
 
 Return a hash containing downcased symbolized container info.
 
@@ -106,7 +106,7 @@ res = client.create_container name: 'nginx-c', image: 'nginx', hostname: 'hostny
 With custom mounts
 
 ```ruby
-res = client.create_container name: 'nginx-c', image: 'nginx', mounts: ['./path/to/mount']'
+res = client.create_container name: 'nginx-c', image: 'nginx', mounts: ['./path/to/mount']
 ```
 
 With custom network mode
@@ -119,6 +119,28 @@ Exposing ports
 
 ```ruby
 res = client.create_container name: 'nginx-c', image: 'nginx', exposedports: { '22/tcp': {} }
+```
+
+Configurations such as:
+
+Binds, Links, PublishAllPorts,  PortBindings, ReadonlyRootfs, VolumesFrom, RestartPolicy, NetworkMode, LogConfig, VolumeDriver
+
+Are setup through Hyperb::HostConfig.
+
+see examples below:
+
+```ruby
+# you can either create host configurations through Hyperb::HostConfig
+# or with a Hash
+
+client.create_container name: 'mysql-1', image: 'mysql', host_config: Hyperb::HostConfig.new(binds: ['/path'] )}
+
+client.create_container name: 'mysql-1', image: 'mysql', host_config: { binds: ['/path/'] }
+client.create_container name: 'mysql-1', image: 'mysql', host_config: { links: ['container1:link_alias'] }
+client.create_container name: 'mysql-1', image: 'mysql', host_config: { publish_all_ports: true }
+client.create_container name: 'mysql-1', image: 'mysql', host_config: { readonly_rootfs: true }
+client.create_container name: 'mysql-1', image: 'mysql', host_config: { restart_policy: { name: 'unless-stopped' }}
+client.create_container name: 'mysql-1', image: 'mysql', host_config: { network_mode: 'host' }
 ```
 
 #### start_container
