@@ -120,6 +120,10 @@ RSpec.describe Hyperb::Images do
       .to_return(body: fixture('inspect_image.json'))
     end
 
+    it 'should raise ArgumentError when name is not provided' do
+      expect { @client.inspect_image }.to raise_error(ArgumentError)
+    end
+
     it 'request to the correct path should be made' do
       @client.inspect_image name: 'busybox'
       expect(a_request(:get, @inspect_image_path)).to have_been_made
