@@ -45,12 +45,10 @@ module Hyperb
     # @required @option params [String] :from_image image name to be pulled
     # @option params [String] :tag image tag name
     #
-    # @option params [Hash] :x-registry-auth object containing either login information, or a token
-    # @option params x-registry-auth [String] :username
-    # @option params x-registry-auth [String] :email
-    # @option params x-registry-auth [String] :password
-    #
-    # TODO: @option params [Boolean] :stdout print stream to stdout
+    # @option params [Hash] :x_registry_auth object containing either login information.
+    # @option params x_registry_auth [String] :username
+    # @option params x_registry_auth [String] :email
+    # @option params x_registry_auth [String] :password
     def create_image(params = {})
       raise ArgumentError, 'Invalid arguments.' unless check_arguments(params, 'from_image')
       path = '/images/create'
