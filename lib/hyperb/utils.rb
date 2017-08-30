@@ -1,6 +1,12 @@
 module Hyperb
   # utils functions
   module Utils
+    # converts from Symbol or String to CamelCase
+    # @return String
+    def camelize(value)
+      value.to_s.split('_').collect(&:capitalize).join
+    end
+
     # checks if all args are keys into the hash
     #
     # @return [Boolean]

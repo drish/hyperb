@@ -39,3 +39,6 @@ Metrics/LineLength:
 
 Metrics/ParameterLists:
   Max: 6
+
+Metrics/AbcSize:
+  Max: 15.80
