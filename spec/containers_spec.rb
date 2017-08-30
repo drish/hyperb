@@ -263,6 +263,118 @@ RSpec.describe Hyperb::Containers do
       expect(a_request(:post, path)
             .with(body: { image: 'image', workingdir: '/path/', labels: { sh_hyper_instancetype: 's1' } })).to have_been_made
     end
+
+    it 'correct request should be made with Hyperb::HostConfig class' do
+      path = @create_container_path
+
+      hc = Hyperb::HostConfig.new(binds: ['/path/to/mount'])
+
+      stub_request(:post, path)
+      .with(body: { image: 'image', labels: { sh_hyper_instancetype:'s1' }, 'HostConfig': hc.fmt })
+      .to_return(body: fixture('create_container.json'))
+
+      @client.create_container(image: 'image', host_config: hc)
+      expect(a_request(:post, path)
+            .with(body: { image: 'image',
+              labels: { sh_hyper_instancetype:'s1' },
+              'HostConfig': hc.fmt })).to have_been_made
+    end
+
+    it 'correct request should be made with host_configs:binds' do
+      path = @create_container_path
+
+      hc = Hyperb::HostConfig.new(binds: ['/path/to/mount'])
+
+      stub_request(:post, path)
+      .with(body: { image: 'image', labels: { sh_hyper_instancetype:'s1' }, 'HostConfig': hc.fmt })
+      .to_return(body: fixture('create_container.json'))
+
+      @client.create_container(image: 'image', host_config: { binds: ['/path/to/mount'] })
+      expect(a_request(:post, path)
+            .with(body: { image: 'image',
+              labels: { sh_hyper_instancetype:'s1' },
+              'HostConfig': hc.fmt })).to have_been_made
+    end
+
+    it 'correct request should be made with host_configs:links' do
+      path = @create_container_path
+
+      hc = Hyperb::HostConfig.new(links: ['container2:alias'])
+
+      stub_request(:post, path)
+      .with(body: { image: 'image', labels: { sh_hyper_instancetype:'s1' }, 'HostConfig': hc.fmt })
+      .to_return(body: fixture('create_container.json'))
+
+      @client.create_container(image: 'image', host_config: { links: ['container2:alias'] })
+      expect(a_request(:post, path)
+            .with(body: { image: 'image',
+              labels: { sh_hyper_instancetype:'s1' },
+              'HostConfig': hc.fmt })).to have_been_made
+    end
+
+    it 'correct request should be made with host_configs:publish_all_ports' do
+      path = @create_container_path
+
+      hc = Hyperb::HostConfig.new(publish_all_ports: false)
+
+      stub_request(:post, path)
+      .with(body: { image: 'image', labels: { sh_hyper_instancetype:'s1' }, 'HostConfig': hc.fmt })
+      .to_return(body: fixture('create_container.json'))
+
+      @client.create_container(image: 'image', host_config: { publish_all_ports: false })
+      expect(a_request(:post, path)
+            .with(body: { image: 'image',
+              labels: { sh_hyper_instancetype:'s1' },
+              'HostConfig': hc.fmt })).to have_been_made
+    end
+
+    it 'correct request should be made with host_configs:readonly_rootfs' do
+      path = @create_container_path
+
+      hc = Hyperb::HostConfig.new(readonly_rootfs: false)
+
+      stub_request(:post, path)
+      .with(body: { image: 'image', labels: { sh_hyper_instancetype:'s1' }, 'HostConfig': hc.fmt })
+      .to_return(body: fixture('create_container.json'))
+
+      @client.create_container(image: 'image', host_config: { readonly_rootfs: false })
+      expect(a_request(:post, path)
+            .with(body: { image: 'image',
+              labels: { sh_hyper_instancetype:'s1' },
+              'HostConfig': hc.fmt })).to have_been_made
+    end
+
+    it 'correct request should be made with host_configs:restart_policy' do
+      path = @create_container_path
+
+      hc = Hyperb::HostConfig.new(restart_policy: { name: 'unless-stopped' })
+
+      stub_request(:post, path)
+      .with(body: { image: 'image', labels: { sh_hyper_instancetype:'s1' }, 'HostConfig': hc.fmt })
+      .to_return(body: fixture('create_container.json'))
+
+      @client.create_container(image: 'image', host_config: { restart_policy: { name: 'unless-stopped' }})
+      expect(a_request(:post, path)
+            .with(body: { image: 'image',
+              labels: { sh_hyper_instancetype:'s1' },
+              'HostConfig': hc.fmt })).to have_been_made
+    end
+
+    it 'correct request should be made with host_configs:network_mode' do
+      path = @create_container_path
+
+      hc = Hyperb::HostConfig.new(network_mode: 'host')
+
+      stub_request(:post, path)
+      .with(body: { image: 'image', labels: { sh_hyper_instancetype:'s1' }, 'HostConfig': hc.fmt })
+      .to_return(body: fixture('create_container.json'))
+
+      @client.create_container(image: 'image', host_config: { network_mode: 'host' })
+      expect(a_request(:post, path)
+            .with(body: { image: 'image',
+              labels: { sh_hyper_instancetype:'s1' },
+              'HostConfig': hc.fmt })).to have_been_made
+    end
   end
 
   describe '#start_container' do

@@ -1,5 +1,6 @@
 require 'hyperb/request'
 require 'hyperb/containers/container'
+require 'hyperb/containers/host_config'
 require 'hyperb/utils'
 require 'json'
 require 'uri'
@@ -103,21 +104,28 @@ module Hyperb
     # @option params [String] :networkmode network mode, ie 'bridge'.
     # @option params [Hash] :exposedports ports to expose.
     #
+    # @option params [Hash] :exposedports ports to expose.
+    #
     # @option params [Hash] :labels hash containing key: value
     # @option params labels [String] :sh_hyper_instancetype container size: s1, s2, s3 ...
     def create_container(params = {})
       raise ArgumentError, 'Invalid arguments.' unless check_arguments(params, 'image')
       path = '/containers/create'
       query = {}
-
-      # set a default size, otherwise container can't be started
+      # set default size, otherwise container can't be started
       body = { labels: { sh_hyper_instancetype: 's1' } }
+
+      # parse host_config options
+      if params.key?(:host_config)
+        body[camelize(:host_config)] = setup_host_config(params)
+        params.delete(:host_config)
+      end
+
       query[:name] = params[:name] if params.key?(:name)
       params.delete(:name)
       body.merge!(params)
 
-      response = JSON.parse(Hyperb::Request.new(self, path, query, 'post', body).perform)
-      downcase_symbolize(response)
+      downcase_symbolize(JSON.parse(Hyperb::Request.new(self, path, query, 'post', body).perform))
     end
 
     # inspect a container
@@ -246,6 +254,16 @@ module Hyperb
       query = {}
       query[:name] = params[:name] if params.key?(:name)
       Hyperb::Request.new(self, path, query, 'post').perform
+    end
+
+    private
+
+    def setup_host_config(params)
+      if params[:host_config].is_a?(Hash)
+        HostConfig.new(params[:host_config]).fmt
+      elsif params[:host_config].is_a?(HostConfig)
+        params[:host_config].fmt
+      end
     end
   end
 end
