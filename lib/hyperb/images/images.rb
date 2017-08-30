@@ -99,6 +99,7 @@ module Hyperb
     # @param params [Hash] A customizable set of params.
     # @option params [String] :name image name to be removed
     def inspect_image(params = {})
+      raise ArgumentError, 'Invalid arguments.' unless check_arguments(params, 'name')
       path = '/images/' + params[:name] + '/json'
       res = JSON.parse(Hyperb::Request.new(self, path, {}, 'get').perform)
       downcase_symbolize(res)
