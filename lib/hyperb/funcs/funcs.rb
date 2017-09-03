@@ -68,7 +68,6 @@ module Hyperb
       Hyperb::Request.new(self, path, {}, 'post', body).perform
     end
 
-
     # remove a func
     #
     # @see https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Func/remove.html
