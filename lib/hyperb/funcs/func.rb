@@ -7,6 +7,7 @@ module Hyperb
 
     def initialize(attrs = {})
       attrs.each do |k, v|
+        v = downcase_symbolize(v) if v.is_a?(Hash)
         instance_variable_set("@#{underscore(k)}", v)
       end
     end
