@@ -13,7 +13,7 @@ module Hyperb
     def initialize(params = {})
       params.each do |att, value|
         value = downcase_symbolize(value) if value.is_a?(Hash)
-        instance_variable_set("@#{att.downcase.to_sym}", value)
+        instance_variable_set("@#{underscore(att)}", value)
       end
     end
 
