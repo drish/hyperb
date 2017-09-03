@@ -164,6 +164,12 @@ For more usage examples, please see the full [documentation]().
 * inspect service
 * list services
 
+### Func (beta)
+
+* create func
+* remove func
+* list funcs
+
 ### Misc.
 
 * Version
@@ -173,10 +179,6 @@ For more usage examples, please see the full [documentation]().
 wip
 
 ### Event
-
-wip
-
-### Func (beta)
 
 wip
 
