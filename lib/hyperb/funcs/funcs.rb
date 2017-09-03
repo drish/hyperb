@@ -67,5 +67,25 @@ module Hyperb
 
       Hyperb::Request.new(self, path, {}, 'post', body).perform
     end
+
+
+    # remove a func
+    #
+    # @see https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Func/remove.html
+    #
+    # @raise [Hyperb::Error::Unauthorized] raised when credentials are not valid.
+    # @raise [Hyperb::Error::Conflict] raised when func with that name is running
+    # @raise [Hyperb::Error::BadRequest] raised when a bad parameter is sent
+    # @raise [Hyperb::Error::InternalServerError] server error on hyper side.
+    # @raise [ArgumentError] when required arguments are not provided.
+    #
+    # @param params [Hash] A customizable set of params.
+    #
+    # @param params :name [String] the function name.
+    def remove_func(params = {})
+      raise ArgumentError, 'Invalid arguments.' unless check_arguments(params, 'name')
+      path = '/funcs/' + params[:name]
+      Hyperb::Request.new(self, path, {}, 'delete').perform
+    end
   end
 end

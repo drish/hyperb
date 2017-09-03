@@ -83,4 +83,18 @@ RSpec.describe Hyperb::Funcs do
       ).to have_been_made
     end
   end
+
+  describe '#remove_func' do
+
+    before do
+      stub_request(:delete, @funcs_path + '/func1')
+      .to_return(body: "")
+    end
+
+    it 'request to the correct path should be made' do
+
+      @client.remove_func(name: 'func1')
+      expect(a_request(:delete, @funcs_path + '/func1')).to have_been_made
+    end
+  end
 end
