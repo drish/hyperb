@@ -5,6 +5,7 @@ RSpec.describe Hyperb::Funcs do
   before do
     @client = Hyperb::Client.new(access_key: 'key', secret_key: '123')
     @funcs_path = Hyperb::Request::BASE_URL + Hyperb::Request::VERSION + '/funcs'
+    @call_path = Hyperb::FuncCallRequest::URL
   end
 
   describe '#funcs' do
@@ -81,6 +82,21 @@ RSpec.describe Hyperb::Funcs do
             }
         })
       ).to have_been_made
+    end
+  end
+
+  describe '#call_func' do
+
+    before do
+      stub_request(:post, "#{@call_path}func1/uuid-123")
+      .to_return(body: "")
+    end
+
+    it 'request to the correct path should be made' do
+
+      @client.call_func(name: 'func1', uuid: 'uuid-123')
+      expect(a_request(:post, "#{@call_path}func1/uuid-123"))
+      .to have_been_made
     end
   end
 
