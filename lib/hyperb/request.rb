@@ -16,7 +16,7 @@ module Hyperb
     SERVICE = 'hyper'.freeze
     ALGORITHM = 'HYPER-HMAC-SHA256'.freeze
     KEYPARTS_REQUEST = 'hyper_request'.freeze
-    BASE_URL = ('https://' + HOST + '/').freeze
+    BASE_URL = ("https://#{HOST}/").freeze
 
     attr_accessor :verb, :path, :client, :date, :headers, :signed
 
@@ -124,6 +124,37 @@ module Hyperb
 
     def hexhmac(key, value)
       OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha256'), key, value)
+    end
+  end
+
+  # func requests are very simple, they do not require signing
+  class FuncCallRequest
+
+    REGION = 'us-west-1'
+    URL = "https://#{REGION}.hyperfunc.io/call/"
+
+    attr_accessor :path, :query, :verb, :body, :headers
+
+    def initialize(client, path, query = {}, verb = 'GET', body = '', optional_headers = {})
+      @client = client
+      @path = path
+      @query = query
+      @verb = verb
+      @headers = { content_type: 'application/json' }
+    end
+
+    def perform
+      final_url = URL + @path + '?' + @query
+      options = {}
+      options[:body] = @body unless @body.empty?
+      response = HTTP.headers(@headers).public_send(@verb.downcase.to_sym, final, options)
+      fail_or_return(response.code, response.body)
+    end
+
+    def fail_or_return(code, body)
+      error = Hyperb::Error::ERRORS[code]
+      raise(error.new(body, code)) if error
+      body
     end
   end
 end
