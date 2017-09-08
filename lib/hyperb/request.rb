@@ -16,7 +16,7 @@ module Hyperb
     SERVICE = 'hyper'.freeze
     ALGORITHM = 'HYPER-HMAC-SHA256'.freeze
     KEYPARTS_REQUEST = 'hyper_request'.freeze
-    BASE_URL = ("https://#{HOST}/").freeze
+    BASE_URL = "https://#{HOST}/".freeze
 
     attr_accessor :verb, :path, :client, :date, :headers, :signed
 
@@ -129,17 +129,17 @@ module Hyperb
 
   # func requests are very simple, they do not require signing
   class FuncCallRequest
-
-    REGION = 'us-west-1'
-    URL = "https://#{REGION}.hyperfunc.io/call/"
+    REGION = 'us-west-1'.freeze
+    URL = "https://#{REGION}.hyperfunc.io/call/".freeze
 
     attr_accessor :path, :query, :verb, :body, :headers
 
-    def initialize(client, path, query = {}, verb = 'GET', body = '', optional_headers = {})
+    def initialize(client, path, query = {}, verb = 'GET', body = '')
       @client = client
       @path = path
-      @query = query
       @verb = verb
+      @query = URI.encode_www_form(query)
+      @body = body.empty? ? body : body.to_json
       @headers = { content_type: 'application/json' }
     end
 
@@ -147,7 +147,7 @@ module Hyperb
       final_url = URL + @path + '?' + @query
       options = {}
       options[:body] = @body unless @body.empty?
-      response = HTTP.headers(@headers).public_send(@verb.downcase.to_sym, final, options)
+      response = HTTP.headers(@headers).public_send(@verb.downcase.to_sym, final_url, options)
       fail_or_return(response.code, response.body)
     end
 

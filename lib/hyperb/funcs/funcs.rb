@@ -86,5 +86,25 @@ module Hyperb
       path = '/funcs/' + params[:name]
       Hyperb::Request.new(self, path, {}, 'delete').perform
     end
+
+    # call a func
+    #
+    # @see https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Func/call.html
+    #
+    # @raise [Hyperb::Error::Unauthorized] raised when credentials are not valid.
+    # @raise [Hyperb::Error::NotFound] no such func
+    # @raise [ArgumentError] when required arguments are not provided.
+    #
+    # @param params [Hash] A customizable set of params.
+    #
+    # @param params :name [String] the function name.
+    # @param params :uuid [String] function uuid.
+    # @param params :sync [Boolean] block until function reply
+    def call_func(params = {})
+      raise ArgumentError, 'Invalid arguments.' unless check_arguments(params, 'name', 'uuid')
+      path = "#{params[:name]}/#{params[:uuid]}"
+      path.concat('/sync') if params.key?(:sync) && params[:sync]
+      Hyperb::FuncCallRequest.new(self, path, {}, 'post').perform
+    end
   end
 end
