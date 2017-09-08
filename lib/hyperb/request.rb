@@ -130,7 +130,7 @@ module Hyperb
   # func requests are very simple, they do not require signing
   class FuncCallRequest
     REGION = 'us-west-1'.freeze
-    URL = "https://#{REGION}.hyperfunc.io/call/".freeze
+    URL = "https://#{REGION}.hyperfunc.io/".freeze
 
     attr_accessor :path, :query, :verb, :body, :headers
 

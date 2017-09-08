@@ -85,25 +85,38 @@ RSpec.describe Hyperb::Funcs do
     end
   end
 
+  describe '#status_func' do
+
+    it 'request to the correct path should be made' do
+
+      stub_request(:get, "#{@call_path}status/func1/uuid-123")
+      .to_return(body: fixture('status_func.json'))
+
+      @client.status_func(name: 'func1', uuid: 'uuid-123')
+      expect(a_request(:get, "#{@call_path}status/func1/uuid-123"))
+      .to have_been_made
+    end
+  end
+
   describe '#call_func' do
 
     it 'request to the correct path should be made' do
 
-      stub_request(:post, "#{@call_path}func1/uuid-123")
+      stub_request(:post, "#{@call_path}call/func1/uuid-123")
       .to_return(body: "")
 
       @client.call_func(name: 'func1', uuid: 'uuid-123')
-      expect(a_request(:post, "#{@call_path}func1/uuid-123"))
+      expect(a_request(:post, "#{@call_path}call/func1/uuid-123"))
       .to have_been_made
     end
 
     it 'request to the correct path should be made with sync:true' do
 
-      stub_request(:post, "#{@call_path}func1/uuid-123/sync")
+      stub_request(:post, "#{@call_path}call/func1/uuid-123/sync")
       .to_return(body: "")
 
       @client.call_func(name: 'func1', uuid: 'uuid-123', sync: true)
-      expect(a_request(:post, "#{@call_path}func1/uuid-123/sync"))
+      expect(a_request(:post, "#{@call_path}call/func1/uuid-123/sync"))
       .to have_been_made
     end
   end
