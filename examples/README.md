@@ -447,6 +447,24 @@ funcs.is_a?(Array)
 puts funcs.first.name
 ```
 
+#### [call_func](https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Func/call.html)
+
+Returns a JSON response containing `CallId` or function return value
+
+```ruby
+client.call_func(name: 'fn', uuid: 'uuid')
+# {CallId: ""}
+
+client.call_func(name: 'helloworld1', uuid: 'uuid', sync: true)
+# HelloWorld
+```
+
+#### [remove_func](https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Func/remove.html)
+
+```ruby
+client.remove_func(name: 'fn')
+```
+
 ## Snapshot API
 
 Return hash containing snapshot information

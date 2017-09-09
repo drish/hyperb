@@ -7,7 +7,6 @@ require 'hyperb/network/fips'
 require 'hyperb/compose/compose'
 require 'hyperb/misc'
 require 'hyperb/funcs/funcs'
-require 'hyperb/hyper_version'
 
 module Hyperb
   # wrapper for apis

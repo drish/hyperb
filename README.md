@@ -169,6 +169,8 @@ For more usage examples, please see the full [documentation]().
 * create func
 * remove func
 * list funcs
+* func status
+* call func
 
 ### Misc.
 
