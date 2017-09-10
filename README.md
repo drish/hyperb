@@ -174,7 +174,8 @@ For more usage examples, please see the full [documentation]().
 
 ### Misc.
 
-* Version
+* version
+* info
 
 ### Security Groups
 
