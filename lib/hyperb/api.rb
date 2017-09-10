@@ -6,6 +6,7 @@ require 'hyperb/volumes/volumes'
 require 'hyperb/network/fips'
 require 'hyperb/compose/compose'
 require 'hyperb/misc'
+require 'hyperb/funcs/funcs'
 
 module Hyperb
   # wrapper for apis
@@ -18,5 +19,6 @@ module Hyperb
     include Hyperb::Snapshots
     include Hyperb::Services
     include Hyperb::Compose
+    include Hyperb::Funcs
   end
 end

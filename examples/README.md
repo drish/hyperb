@@ -407,6 +407,64 @@ Returns an Hash containing service fields
 client.inspect_service(name: 'srvc1')
 ```
 
+## [Funcs API](https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Func)
+
+#### [create_func](https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Func/create.html)
+
+Return hash containing func information
+
+```ruby
+
+func_config = {
+  name: "helloworld",
+  config: {
+    cmd: [
+      "echo",
+      "HelloWorld"
+    ],
+    image: "ubuntu"
+  }
+}
+
+func = client.create_func(func_config)
+puts func
+```
+
+#### [remove_func](https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Func/remove.html)
+
+```ruby
+client.remove_func name: 'func1'
+```
+
+#### [funcs](https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Func/list.html)
+
+Returns an array of Hyperb::Func
+
+```ruby
+funcs = client.funcs
+funcs.is_a?(Array)
+
+puts funcs.first.name
+```
+
+#### [call_func](https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Func/call.html)
+
+Returns a JSON response containing `CallId` or function return value
+
+```ruby
+client.call_func(name: 'fn', uuid: 'uuid')
+# {CallId: ""}
+
+client.call_func(name: 'helloworld1', uuid: 'uuid', sync: true)
+# HelloWorld
+```
+
+#### [remove_func](https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/Func/remove.html)
+
+```ruby
+client.remove_func(name: 'fn')
+```
+
 ## Snapshot API
 
 Return hash containing snapshot information

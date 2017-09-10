@@ -42,6 +42,19 @@ module Hyperb
       obj
     end
 
+    # prepares all json payloads before sending to hyper
+    #
+    # input: { foo_bar: 'test' }
+    # output: {'FooBar': 'test' }
+    def prepare_json(params = {})
+      json = {}
+      params.each do |key, value|
+        value = prepare_json(value) if value.is_a?(Hash)
+        json[camelize(key)] = value
+      end
+      json
+    end
+
     # based on http://api.rubyonrails.org/classes/ActiveSupport/Inflector.html#method-i-underscore
     #
     # underscores and symbolize a string
@@ -54,7 +67,8 @@ module Hyperb
         .gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2')
         .gsub(/([a-z\d])([A-Z])/, '\1_\2')
         .tr('-', '_')
-        .downcase.to_sym
+        .downcase
+        .to_sym
     end
   end
 end
