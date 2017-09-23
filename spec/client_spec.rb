@@ -36,7 +36,10 @@ RSpec.describe Hyperb::Client do
     end
 
     it 'should raise UnsupportedRegion' do
-      expect { Hyperb::Client.new(access_key: 's', secret_key: 'key', region: 'eu-unsup')}.to raise_error(Hyperb::Error::UnsupportedRegion, 'Unsupported region: eu-unsup')
+      expect { Hyperb::Client.new(access_key: 's', secret_key: 'key', region: 'eu-unsup')}.to raise_error do |e|
+        expect(e).to be_a Hyperb::Error::UnsupportedRegion
+        expect(e.message).to eql('Unsupported region: eu-unsup')
+      end
     end
 
     it 'new should set default region' do

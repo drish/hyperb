@@ -25,7 +25,7 @@ module Hyperb
       if @region.nil?
         @region = default_region
       else
-        raise Hyperb::Error::UnsupportedRegion.new, @region.to_s unless supported_region?(@region)
+        raise Hyperb::Error::UnsupportedRegion, @region.to_s unless supported_region?(@region)
       end
     end
 
