@@ -22,7 +22,7 @@ module Hyperb
     # @returns [Hash]
     def fmt
       formated = {}
-      attrs.keys.each do |key|
+      attrs.each_key do |key|
         formated[camelize(key)] = attrs[key]
       end
       formated
