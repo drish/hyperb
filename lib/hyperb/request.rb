@@ -7,16 +7,15 @@ require 'digest'
 require 'json'
 
 module Hyperb
+
   # wraps all requests, performing aws4 signature
   class Request
     FMT = '%Y%m%dT%H%M%SZ'.freeze
     VERSION = 'v1.23'.freeze
-    HOST = 'us-west-1.hyper.sh'.freeze
-    REGION = 'us-west-1'.freeze
+
     SERVICE = 'hyper'.freeze
     ALGORITHM = 'HYPER-HMAC-SHA256'.freeze
     KEYPARTS_REQUEST = 'hyper_request'.freeze
-    BASE_URL = "https://#{HOST}/".freeze
 
     attr_accessor :verb, :path, :client, :date, :headers, :signed
 
@@ -28,10 +27,14 @@ module Hyperb
       @hashed_body = hexdigest(@body)
       @verb = verb.upcase
       @date = Time.now.utc.strftime(FMT)
+
+      @host = "#{client.region}.hyper.sh".freeze
+      @base_url = "https://#{@host}/".freeze
+
       @headers = {
         content_type: 'application/json',
         x_hyper_date: @date,
-        host: HOST,
+        host: @host,
         x_hyper_content_sha256: @hashed_body
       }
       @headers.merge!(optional_headers) unless optional_headers.empty?
@@ -40,7 +43,7 @@ module Hyperb
 
     def perform
       sign unless signed
-      final = BASE_URL + @path + '?' + @query
+      final = @base_url + @path + '?' + @query
       options = {}
       options[:body] = @body unless @body.empty?
       response = HTTP.headers(@headers).public_send(@verb.downcase.to_sym, final, options)
@@ -84,7 +87,7 @@ module Hyperb
     # https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/index.html
     def signature
       k_date = hmac('HYPER' + @client.secret_key, @date[0, 8])
-      k_region = hmac(k_date, REGION)
+      k_region = hmac(k_date, client.region)
       k_service = hmac(k_region, SERVICE)
       k_credentials = hmac(k_service, KEYPARTS_REQUEST)
       hexhmac(k_credentials, string_to_sign)
@@ -108,7 +111,7 @@ module Hyperb
     def credential_scope
       [
         @date[0, 8],
-        REGION,
+        client.region,
         SERVICE,
         KEYPARTS_REQUEST
       ].join("/") # rubocop:disable StringLiterals
@@ -129,13 +132,15 @@ module Hyperb
 
   # func requests are very simple, they do not require signing
   class FuncCallRequest
-    REGION = 'us-west-1'.freeze
-    URL = "https://#{REGION}.hyperfunc.io/".freeze
 
     attr_accessor :path, :query, :verb, :body, :headers
 
     def initialize(client, path, query = {}, verb = 'GET', body = '')
       @client = client
+
+      @host = "#{client.region}.hyperfunc.io".freeze
+      @base_url = "https://#{@host}/".freeze
+
       @path = path
       @verb = verb
       @query = URI.encode_www_form(query)
@@ -144,7 +149,7 @@ module Hyperb
     end
 
     def perform
-      final_url = URL + @path + '?' + @query
+      final_url = @base_url + @path + '?' + @query
       options = {}
       options[:body] = @body unless @body.empty?
       response = HTTP.headers(@headers).public_send(@verb.downcase.to_sym, final_url, options)

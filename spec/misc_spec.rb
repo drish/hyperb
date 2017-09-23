@@ -4,7 +4,7 @@ RSpec.describe Hyperb::Misc do
 
   before do
     @client = Hyperb::Client.new(access_key: 'key', secret_key: '123')
-    @base_path = Hyperb::Request::BASE_URL + Hyperb::Request::VERSION + '/info'
+    @base_path = "#{base_url(@client)}/info"
   end
 
   describe '#info' do

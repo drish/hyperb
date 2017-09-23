@@ -4,7 +4,7 @@ RSpec.describe Hyperb::Network do
 
   before do
     @client = Hyperb::Client.new(access_key: 'key', secret_key: '123')
-    @base_path = Hyperb::Request::BASE_URL + Hyperb::Request::VERSION + '/fips'
+    @base_path = "#{base_url(@client)}/fips"
   end
 
   describe '#fip_allocate' do

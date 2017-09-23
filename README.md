@@ -37,8 +37,20 @@ Or install it yourself as:
 Hyper.sh requires you to create credentials on their [dashboard](https://console.hyper.sh/account/credential), after that you can configure your client as following:
 
 ```ruby
-client = Hyperb::Client.new(access_key: 'ak', secret_key: 'sk')
+client = Hyperb::Client.new(access_key: 'ak', secret_key: 'sk', region: 'us-west-1')
 ```
+
+or 
+
+```ruby
+client = Hyperb::Client.new do |client|
+  client.secret_key = 'secret_key',
+  client.access_key = 'access_key',
+  client.region = 'eu-central-1'
+end
+```
+
+If `region` is not set, `us-west-1` is set by default.
 
 ## Usage Examples
 

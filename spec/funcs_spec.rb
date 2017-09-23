@@ -4,8 +4,8 @@ RSpec.describe Hyperb::Funcs do
 
   before do
     @client = Hyperb::Client.new(access_key: 'key', secret_key: '123')
-    @funcs_path = Hyperb::Request::BASE_URL + Hyperb::Request::VERSION + '/funcs'
-    @call_path = Hyperb::FuncCallRequest::URL
+    @funcs_path = "#{base_url(@client)}/funcs"
+    @call_path = funcs_base_url(@client)
   end
 
   describe '#funcs' do

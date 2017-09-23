@@ -5,7 +5,7 @@ RSpec.describe Hyperb::Compose do
 
   before do
     @client = Hyperb::Client.new(access_key: 'key', secret_key: '123')
-    @base_path = Hyperb::Request::BASE_URL + Hyperb::Request::VERSION + '/compose/'
+    @base_path = "#{base_url(@client)}/compose/"
   end
 
   describe '#compose_down' do
