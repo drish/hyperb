@@ -27,8 +27,7 @@ module Hyperb
       @verb = verb.upcase
       @date = Time.now.utc.strftime(FMT)
 
-      @host = "#{client.region}.hyper.sh".freeze
-      @base_url = "https://#{@host}/".freeze
+      set_base_url
 
       @headers = {
         content_type: 'application/json',
@@ -38,6 +37,11 @@ module Hyperb
       }
       @headers.merge!(optional_headers) unless optional_headers.empty?
       @signed = false
+    end
+
+    def set_base_url
+      @host = "#{client.region}.hyper.sh".freeze
+      @base_url = "https://#{@host}/".freeze
     end
 
     def perform
@@ -131,19 +135,23 @@ module Hyperb
 
   # func requests are very simple, they do not require signing
   class FuncCallRequest
-    attr_accessor :path, :query, :verb, :body, :headers
+    attr_accessor :client, :path, :query, :verb, :body, :headers
 
     def initialize(client, path, query = {}, verb = 'GET', body = '')
       @client = client
 
-      @host = "#{client.region}.hyperfunc.io".freeze
-      @base_url = "https://#{@host}/".freeze
+      set_base_url
 
       @path = path
       @verb = verb
       @query = URI.encode_www_form(query)
       @body = body.empty? ? body : body.to_json
       @headers = { content_type: 'application/json' }
+    end
+
+    def set_base_url
+      @host = "#{client.region}.hyperfunc.io".freeze
+      @base_url = "https://#{@host}/".freeze
     end
 
     def perform

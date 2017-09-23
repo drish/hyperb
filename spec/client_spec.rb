@@ -42,7 +42,7 @@ RSpec.describe Hyperb::Client do
       end
     end
 
-    it 'new should set default region' do
+    it 'should set default region' do
       client = Hyperb::Client.new do |c|
         c.access_key = 's'
         c.secret_key = 'key'
