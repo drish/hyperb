@@ -4,8 +4,6 @@ module Hyperb
     attr_reader :code, :msg
 
     # region not supported
-    # UnsupportedRegion = Class.new(self)
-
     class UnsupportedRegion < self
       def initialize(region)
         super("Unsupported region: #{region}", nil)

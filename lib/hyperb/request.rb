@@ -7,7 +7,6 @@ require 'digest'
 require 'json'
 
 module Hyperb
-
   # wraps all requests, performing aws4 signature
   class Request
     FMT = '%Y%m%dT%H%M%SZ'.freeze
@@ -132,7 +131,6 @@ module Hyperb
 
   # func requests are very simple, they do not require signing
   class FuncCallRequest
-
     attr_accessor :path, :query, :verb, :body, :headers
 
     def initialize(client, path, query = {}, verb = 'GET', body = '')
