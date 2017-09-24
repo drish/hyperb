@@ -90,7 +90,7 @@ module Hyperb
     # https://docs.hyper.sh/Reference/API/2016-04-04%20[Ver.%201.23]/index.html
     def signature
       k_date = hmac('HYPER' + @client.secret_key, @date[0, 8])
-      k_region = hmac(k_date, client.region)
+      k_region = hmac(k_date, 'us-west-1')
       k_service = hmac(k_region, SERVICE)
       k_credentials = hmac(k_service, KEYPARTS_REQUEST)
       hexhmac(k_credentials, string_to_sign)
@@ -114,7 +114,7 @@ module Hyperb
     def credential_scope
       [
         @date[0, 8],
-        client.region,
+        'us-west-1',
         SERVICE,
         KEYPARTS_REQUEST
       ].join("/") # rubocop:disable StringLiterals
