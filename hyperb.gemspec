@@ -25,6 +25,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'simplecov', '~> 0.9'
   spec.add_development_dependency 'rspec', '~> 3.0'
   spec.add_development_dependency 'pry', '~> 0.10.4'
+  spec.add_development_dependency 'pry-byebug'
 
   spec.required_ruby_version = '>= 2.2'
 end

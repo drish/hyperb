@@ -3,6 +3,13 @@ module Hyperb
   class Error < StandardError
     attr_reader :code, :msg
 
+    # region not supported
+    class UnsupportedRegion < self
+      def initialize(region)
+        super("Unsupported region: #{region}", nil)
+      end
+    end
+
     # 4xx HTTP status code
     ClientError = Class.new(self)
 
@@ -36,7 +43,7 @@ module Hyperb
       500 => Hyperb::Error::InternalServerError
     }.freeze
 
-    def initialize(msg, code)
+    def initialize(msg, code = nil)
       super(msg)
       @code = code
     end

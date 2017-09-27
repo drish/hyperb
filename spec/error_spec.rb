@@ -4,8 +4,8 @@ RSpec.describe Hyperb::Error do
 
   before do
     # random url for request mocking
-    @path = Hyperb::Request::BASE_URL + Hyperb::Request::VERSION + '/version'
     @client = Hyperb::Client.new secret_key: '123', access_key: 'ak'
+    @path = "#{base_url(@client)}/version"
   end
 
   Hyperb::Error::ERRORS.each do |code, exception|

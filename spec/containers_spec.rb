@@ -6,7 +6,8 @@ RSpec.describe Hyperb::Containers do
   before do
     @client = Hyperb::Client.new(access_key: 'key', secret_key: '123')
 
-    @containers_base_path = Hyperb::Request::BASE_URL + Hyperb::Request::VERSION + '/containers/'
+    @containers_base_path = "#{base_url(@client)}/containers/"
+
     @containers_path =  @containers_base_path + 'json'
     @remove_container_path = @containers_base_path
     @create_container_path = @containers_base_path + 'create'
@@ -404,7 +405,6 @@ RSpec.describe Hyperb::Containers do
       expect(a_request(:post, path)
             .with(body: "")).to have_been_made
     end
-
   end
 
   describe '#container_logs' do

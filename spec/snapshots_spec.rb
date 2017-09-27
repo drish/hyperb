@@ -5,7 +5,7 @@ RSpec.describe Hyperb::Snapshots do
 
   before do
     @client = Hyperb::Client.new(access_key: 'key', secret_key: '123')
-    @base_path = Hyperb::Request::BASE_URL + Hyperb::Request::VERSION + '/snapshots'
+    @base_path = "#{base_url(@client)}/snapshots"
   end
 
   describe '#create_snapshot' do
