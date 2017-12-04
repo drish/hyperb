@@ -44,8 +44,8 @@ or
 
 ```ruby
 client = Hyperb::Client.new do |client|
-  client.secret_key = 'secret_key',
-  client.access_key = 'access_key',
+  client.secret_key = 'secret_key'
+  client.access_key = 'access_key'
   client.region = 'eu-central-1'
 end
 ```
