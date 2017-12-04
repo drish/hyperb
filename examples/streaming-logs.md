@@ -3,7 +3,7 @@
 Assuming you already configured your client, and you have a running container.
 
 Hyperb uses [httprb](https://github.com/httprb/http) as the underlying http client, it supports streaming by default,
-by calling the `readpartial`
+by calling `#readpartial`
 
 For continuous streaming of the logs, use `follow: true`
 
