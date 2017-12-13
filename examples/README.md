@@ -231,7 +231,7 @@ puts stats
 Streaming stats at real time
 
 ```ruby
-logs = client.container_logs id: 'rails-server', stream: true
+logs = client.container_stats id: 'rails-server', stream: true
 
 while body = logs.readpartial(1024)
   puts body
