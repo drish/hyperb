@@ -13,7 +13,7 @@ x_registry_auth = {
   serveraddress: 'https://gcr.io'
 }
 
-image = client.create_image(from_image: 'gcr.io/private/repo/image', x_registry_auth)
+image = client.create_image(from_image: 'gcr.io/private/repo/image', x_registry_auth: x_registry_auth)
 puts image
 
 ```
