@@ -9,6 +9,9 @@ AllCops:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
+Style/FormatStringToken:
+  Enabled: false
+
 Layout/IndentHeredoc:
   EnforcedStyle: powerpack
 

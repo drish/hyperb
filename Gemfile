@@ -9,7 +9,7 @@ gem 'yard'
 
 group :test do
   gem 'coveralls'
-  gem 'rubocop', '0.46'
+  gem 'rubocop', '~> 0.52.0', require: false
   gem 'yardstick'
 end
 
