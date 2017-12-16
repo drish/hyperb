@@ -29,7 +29,7 @@ module Hyperb
     def downcase_symbolize(obj)
       if obj.is_a? Hash
         return obj.each_with_object({}) do |(k, v), memo|
-          memo.tap { |m| m[underscore(k)] = downcase_symbolize(v) }
+          memo.tap { |m| m[underscore(k).to_sym] = downcase_symbolize(v) }
         end
       end
 
@@ -59,16 +59,15 @@ module Hyperb
     #
     # underscores and symbolize a string
     # @param [String] word
-    # @returns [String]
-    def underscore(word)
-      word
-        .to_s
-        .gsub(/([A-Z]+)([A-Z]+)([A-Z][a-z])/, '\12_\3')
-        .gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2')
-        .gsub(/([a-z\d])([A-Z])/, '\1_\2')
-        .tr('-', '_')
-        .downcase
-        .to_sym
+    # @returns [Symbol]
+    def underscore(camel_cased_word)
+      return camel_cased_word unless camel_cased_word =~ /[A-Z-]|::/
+      word = camel_cased_word.to_s.gsub(/::/, '/')
+      word.gsub!(/([A-Z\d]+)([A-Z][a-z])/,'\1_\2')
+      word.gsub!(/([a-z\d])([A-Z])/,'\1_\2')
+      word.tr!('-', '_')
+      word.downcase!
+      word.to_sym
     end
   end
 end
