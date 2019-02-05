@@ -1,3 +1,6 @@
+Unfortunately this project is being archived since hyper.sh [shutdown](https://news.ycombinator.com/item?id=18734658) 
+
+
 <p align="center">
   <h1 align="center">Hyperb</h1>
   <p align="center">Hyperb is a <a href="https://hyper.sh">Hyper.sh</a> API ruby gem.</p>
